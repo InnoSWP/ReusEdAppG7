@@ -1,5 +1,4 @@
-# Mobile Development: 
-# Reusable Educational App
+# Mobile Development: Reusable Educational App
 
 # Project description:
 
