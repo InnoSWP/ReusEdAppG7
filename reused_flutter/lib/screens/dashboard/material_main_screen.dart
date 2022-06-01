@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reused_flutter/widgets/material/app_drawer.dart';
 
 class MaterialDashboardMainScreen extends StatelessWidget {
   static const routeName = "/dashboard";
@@ -8,7 +7,15 @@ class MaterialDashboardMainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Dashboard"),
+      child: Column(
+        children: [
+          MaterialButton(
+            onPressed: () {},
+            child: Text("Create course"),
+          ),
+          Text("either create course from a for")
+        ],
+      ),
     );
   }
 }
