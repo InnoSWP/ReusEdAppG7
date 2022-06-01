@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MaterialSocialMainScreen extends StatelessWidget {
+class SocialMainScreen extends StatelessWidget {
   static const routeName = "/social";
-  const MaterialSocialMainScreen({Key? key}) : super(key: key);
+  const SocialMainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

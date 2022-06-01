@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "500918492795",
-    "project_id": "reused-learning",
-    "storage_bucket": "reused-learning.appspot.com"
+    "project_number": "249230667430",
+    "project_id": "reused-learning-innopolis",
+    "storage_bucket": "reused-learning-innopolis.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:500918492795:android:48a94c645d927480154cde",
+        "mobilesdk_app_id": "1:249230667430:android:91c30841ea92179af88e67",
         "android_client_info": {
-          "package_name": "com.example.reused_flutter"
+          "package_name": "com.innopolis.reused_learning_flutter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "500918492795-ot5qo3elc0d9ipsl86qkcdhsmhtdhd1i.apps.googleusercontent.com",
+          "client_id": "249230667430-j103mr2q95qfroveln35akjeopo9s50n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyClPyMhy1U-2VCZPHJm1QfcYi30U6PJwzk"
+          "current_key": "AIzaSyD6uXweSS_HyNLsD5oyoIjwxUj5C4tmIEs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "500918492795-ot5qo3elc0d9ipsl86qkcdhsmhtdhd1i.apps.googleusercontent.com",
+              "client_id": "249230667430-j103mr2q95qfroveln35akjeopo9s50n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

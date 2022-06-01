@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
-class MaterialSettingsMainScreen extends StatefulWidget {
+class SettingsMainScreen extends StatefulWidget {
   static const routeName = "/settings";
-  const MaterialSettingsMainScreen({Key? key}) : super(key: key);
+  const SettingsMainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MaterialSettingsMainScreen> createState() =>
-      _MaterialSettingsMainScreenState();
+  State<SettingsMainScreen> createState() =>
+      _SettingsMainScreenState();
 }
 
-class _MaterialSettingsMainScreenState
-    extends State<MaterialSettingsMainScreen> {
+class _SettingsMainScreenState
+    extends State<SettingsMainScreen> {
 
   void _submitChangedPassword() {
     // firebase code here
   }
-
 
   @override
   Widget build(BuildContext context) {

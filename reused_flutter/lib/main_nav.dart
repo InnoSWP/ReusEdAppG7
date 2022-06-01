@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:reused_flutter/screens/dashboard/material_main_screen.dart';
-import 'package:reused_flutter/screens/social/material_main_screen.dart';
-import 'package:reused_flutter/screens/profile/material_main_screen.dart';
-import 'package:reused_flutter/screens/shop/material_main_screen.dart';
-import 'package:reused_flutter/widgets/material/app_drawer.dart';
+import 'package:reused_flutter/screens/dashboard/main_screen.dart';
+import 'package:reused_flutter/screens/social/main_screen.dart';
+import 'package:reused_flutter/screens/profile/main_screen.dart';
+import 'package:reused_flutter/screens/shop/main_screen.dart';
+import 'package:reused_flutter/widgets/app_drawer.dart';
 
-class MaterialMainWidget extends StatefulWidget {
-  const MaterialMainWidget({Key? key}) : super(key: key);
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({Key? key}) : super(key: key);
 
   @override
-  State<MaterialMainWidget> createState() => _MaterialMainWidgetState();
+  State<MainNavigation> createState() => _MainNavigationState();
 }
 
-class _MaterialMainWidgetState extends State<MaterialMainWidget> {
+class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    MaterialDashboardMainScreen(),
-    MaterialSocialMainScreen(),
-    MaterialShopMainScreen(),
-    MaterialProfileMainScreen(),
+    const DashboardMainScreen(),
+    const SocialMainScreen(),
+    const ShopMainScreen(),
+    const ProfileMainScreen(),
   ];
 
   PreferredSizeWidget _getAppBar(BuildContext context, int _selectedIndex) {
@@ -74,7 +74,7 @@ class _MaterialMainWidgetState extends State<MaterialMainWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
