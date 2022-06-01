@@ -12,7 +12,7 @@ import 'package:reused_flutter/screens/shop/material_main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -20,14 +20,28 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'ReusEd',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      routes: {
+        // '/': (_) => MaterialLoginScreen(),
+        '/': (_) => MaterialMainWidget(),
+        MaterialDashboardMainScreen.routeName: (_) => MaterialDashboardMainScreen(),
+        MaterialSocialMainScreen.routeName: (_) => MaterialSocialMainScreen(),
+        MaterialProfileMainScreen.routeName: (_) => MaterialProfileMainScreen(),
+        MaterialSettingsMainScreen.routeName: (_) => MaterialSettingsMainScreen(),
+        MaterialShopMainScreen.routeName: (_) => MaterialShopMainScreen(),
+      },
+    );
+    // return CupertinoApp(
     //   debugShowCheckedModeBanner: false,
     //   title: 'ReusEd',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
     //   routes: {
     //     '/': (_) => MaterialLoginScreen(),
+    //     // '/': (_) => CupertinoLoginScreen(),
     //     // '/': (_) => MaterialMainWidget(),
     //     MaterialDashboardMainScreen.routeName: (_) => MaterialDashboardMainScreen(),
     //     MaterialSocialMainScreen.routeName: (_) => MaterialSocialMainScreen(),
@@ -36,19 +50,5 @@ class MyApp extends StatelessWidget {
     //     MaterialShopMainScreen.routeName: (_) => MaterialShopMainScreen(),
     //   },
     // );
-    return CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ReusEd',
-      routes: {
-        // '/': (_) => MaterialLoginScreen(),
-        '/': (_) => CupertinoLoginScreen(),
-        // '/': (_) => MaterialMainWidget(),
-        MaterialDashboardMainScreen.routeName: (_) => MaterialDashboardMainScreen(),
-        MaterialSocialMainScreen.routeName: (_) => MaterialSocialMainScreen(),
-        MaterialProfileMainScreen.routeName: (_) => MaterialProfileMainScreen(),
-        MaterialSettingsMainScreen.routeName: (_) => MaterialSettingsMainScreen(),
-        MaterialShopMainScreen.routeName: (_) => MaterialShopMainScreen(),
-      },
-    );
   }
 }

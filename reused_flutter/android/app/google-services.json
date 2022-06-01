@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "500918492795",
+    "project_id": "reused-learning",
+    "storage_bucket": "reused-learning.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500918492795:android:48a94c645d927480154cde",
+        "android_client_info": {
+          "package_name": "com.example.reused_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500918492795-ot5qo3elc0d9ipsl86qkcdhsmhtdhd1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClPyMhy1U-2VCZPHJm1QfcYi30U6PJwzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500918492795-ot5qo3elc0d9ipsl86qkcdhsmhtdhd1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
