@@ -1,7 +1,5 @@
 # Mobile Development: Reusable Educational App
 
-# Project description:
-
 ## Main task:
 The task is to develop a reusable educational app. 
 
