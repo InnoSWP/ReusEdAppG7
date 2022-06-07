@@ -22,6 +22,8 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
     initFirebase();
   }
 
+  final CollectionReference _courses =
+      FirebaseFirestore.instance.collection('courses');
   @override
   Widget build(BuildContext context) {
     // return Center(
@@ -35,25 +37,52 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
     //     ],
     //   ),
     // );
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('courses').snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (!snapshot.hasData) return Text('No courses added');
-        return ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: snapshot.data!.docs.length,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return Text(
-                  "No courses added by far"); // return the widget you want as "header" here
-            }
-            return ListTile(
-              title: Text(snapshot.data!.docs[index]['coursename']),
-              subtitle: Text(snapshot.data!.docs[index]['description']),
-            );
-          },
-        );
-      },
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: Colors.white,
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              'Your courses',
+              style: TextStyle(color: Colors.black, fontSize: 24),
+            ),
+
+            StreamBuilder(
+              stream: _courses.snapshots(), //build connection
+              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                if (streamSnapshot.hasData) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: streamSnapshot.data!.docs.length,  //number of rows
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot documentSnapshot =
+                      streamSnapshot.data!.docs[index];
+                      return Card(
+                        margin: const EdgeInsets.all(10),
+                        child: SizedBox(width: 150,child: ListTile(
+                          title: Text(documentSnapshot['course']['coursename']),
+                          subtitle: Text(documentSnapshot['course']['description']),
+                        ),),
+                      );
+                    },
+                  );
+                }
+
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            )
+
+          ],
+        ),
+      )
+
     );
   }
 }
