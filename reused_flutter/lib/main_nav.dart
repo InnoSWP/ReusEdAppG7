@@ -22,12 +22,44 @@ class _MainNavigationState extends State<MainNavigation> {
     const ProfileMainScreen(),
   ];
 
+  bool _forumActive = true;
+
   PreferredSizeWidget _getAppBar(BuildContext context, int _selectedIndex) {
     switch (_selectedIndex) {
       case 0:
         return AppBar(title: const Text("Dashboard"));
       case 1:
-        return AppBar(title: const Text("Social"));
+        return AppBar(
+          title: const Text("Social"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  if (!_forumActive) _forumActive = true;
+                });
+              },
+              child: Text("Forum",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: _forumActive ? 18 : 16,
+                    fontWeight: _forumActive ? FontWeight.bold : null,
+                  )),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  if (_forumActive) _forumActive = false;
+                });
+              },
+              child: Text("Leaderboard",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: _forumActive ? 16 : 18,
+                    fontWeight: _forumActive ? null : FontWeight.bold,
+                  )),
+            ),
+          ],
+        );
       case 2:
         return AppBar(title: const Text("Shop"));
       case 3:

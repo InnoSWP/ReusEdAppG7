@@ -6,8 +6,10 @@ class SocialMainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Social"),
+    return const Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: null,
     );
   }
 }
