@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reused_flutter/screens/login/reset_form.dart';
 
 class AuthForm extends StatefulWidget {
   final void Function(
@@ -39,6 +40,10 @@ class _AuthFormState extends State<AuthForm> {
         context,
       );
     }
+  }
+
+  void _navigateToNextScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResetForm()));
   }
 
   @override
@@ -196,6 +201,17 @@ class _AuthFormState extends State<AuthForm> {
                   child: const Text("Sign up")),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Forgot password?"),
+              TextButton(onPressed: () {
+                // Navigate to reset_form screen
+                _navigateToNextScreen(context);
+              }, 
+              child: const Text("Reset password")),
+            ],
+          )
       ],
     );
   }
