@@ -28,17 +28,6 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return Center(
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       ElevatedButton(
-    //         onPressed: () => Navigator.of(context).pushNamed('/create_course'),
-    //         child: const Text("Create course"),
-    //       ),
-    //     ],
-    //   ),
-    // );
     return Container(
       height: double.infinity,
       width: double.infinity,
