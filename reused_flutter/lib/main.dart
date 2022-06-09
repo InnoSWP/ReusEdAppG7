@@ -14,7 +14,7 @@ import 'screens/splash/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -28,25 +28,26 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
-          if (snapshot.hasData) {
-            return const MainNavigation();
-          }
-          return const LoginScreen();
-        },
-      ),
+      home: const MainNavigation(),
+      // home: StreamBuilder(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (ctx, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const SplashScreen();
+      //     }
+      //     if (snapshot.hasData) {
+      //       return const MainNavigation();
+      //     }
+      //     return const LoginScreen();
+      //   },
+      // ),
       routes: {
         DashboardMainScreen.routeName: (_) => const DashboardMainScreen(),
         SocialMainScreen.routeName: (_) => const SocialMainScreen(),
         ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
         SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
         ShopMainScreen.routeName: (_) => const ShopMainScreen(),
-        CreateCourseMainScreen.routeName: (_)=> const CreateCourseMainScreen(),
+        CreateCourseMainScreen.routeName: (_) => const CreateCourseMainScreen(),
       },
     );
   }
