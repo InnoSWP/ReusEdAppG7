@@ -38,13 +38,6 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // Text(
-            //   'Your courses',
-            //   style: TextStyle(
-            //       color: Colors.black,
-            //       fontSize: 32,
-            //       fontWeight: FontWeight.bold),
-            // ),
             StreamBuilder(
               stream: _courses.snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
@@ -63,7 +56,7 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
                           margin: const EdgeInsets.all(10),
                           child: SizedBox(
                             width: 150,
-                            child: ListTile(
+                            child: ExpansionTile(
                               leading: const Icon(Icons.computer),
                               title: Text(
                                 documentSnapshot['course']['coursename'],
@@ -73,20 +66,33 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              onTap: (){showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    _buildPopupDialog(context),
-                              );},
-                              subtitle: Text(
-                                documentSnapshot['course']['description'],
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  fontSize: 18,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  child: Text(
+                                    documentSnapshot['course']['description'],
+                                    maxLines: 2,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                                softWrap: false,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        null;
+                                      },
+                                      textColor: Theme.of(context).primaryColor,
+                                      child: const Text('Go to the course'),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                         );
@@ -105,25 +111,4 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
       ),
     );
   }
-}
-Widget _buildPopupDialog(BuildContext context) {
-  return AlertDialog(
-    title: const Text('Coursename'),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text("Description"),
-      ],
-    ),
-    actions: <Widget>[
-      MaterialButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        textColor: Theme.of(context).primaryColor,
-        child: const Text('Close'),
-      ),
-    ],
-  );
 }
