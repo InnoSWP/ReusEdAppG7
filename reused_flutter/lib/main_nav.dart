@@ -18,7 +18,8 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const DashboardMainScreen(),
+    const ChatsMainScreen(),
+    // const DashboardMainScreen(),
     const ForumMainScreen(),
     const ChatsMainScreen(),
     const ShopMainScreen(),
