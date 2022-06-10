@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         DashboardMainScreen.routeName: (_) => const DashboardMainScreen(),
-        SocialMainScreen.routeName: (_) => const SocialMainScreen(),
+        // SocialMainScreen.routeName: (_) => const SocialMainScreen(),
         ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
         SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
         ShopMainScreen.routeName: (_) => const ShopMainScreen(),
