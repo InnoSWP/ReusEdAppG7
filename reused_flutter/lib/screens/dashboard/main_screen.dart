@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'course_screen.dart';
 
 class DashboardMainScreen extends StatefulWidget {
   static const routeName = "/dashboard";
@@ -85,7 +86,7 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
                                   children: [
                                     MaterialButton(
                                       onPressed: () {
-                                        null;
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CourseScreen()),);
                                       },
                                       textColor: Theme.of(context).primaryColor,
                                       child: const Text('Go to the course'),
