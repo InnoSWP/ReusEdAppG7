@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:reused_flutter/providers/auth_provider.dart';
 
 class ChatsMainScreen extends StatelessWidget {
   static const routeName = "/chats";
@@ -8,8 +6,9 @@ class ChatsMainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _userData =
-        Provider.of<AuthProvider>(context).getAuthInfo().currentUser;
+    // final _userData =
+    //     Provider.of<AuthProvider>(context).getAuthInfo().currentUser;
+    // final _userData = Provider.of<AuthProvider>(context).getCurrentUserInfo();
     return Container();
   }
 }

@@ -57,11 +57,12 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email,
           password: password,
         );
-        await FirebaseFirestore.instance.collection('users').doc(username).set(
+        await FirebaseFirestore.instance.collection('users').doc(userCredentials.user!.uid).set(
           {
             'username': username,
             'email': email,
             'role': role,
+            'chatsWith': '',
           },
         );
       }

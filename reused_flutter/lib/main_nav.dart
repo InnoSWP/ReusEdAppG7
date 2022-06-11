@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/screens/chat/main_screen.dart';
 import 'package:reused_flutter/screens/chat/select_user.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
@@ -88,6 +90,8 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    authProvider.initUserData();
     return Scaffold(
       appBar: _getAppBar(context, _selectedIndex),
       drawer: AppDrawer(),
