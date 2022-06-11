@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:reused_flutter/screens/chat/main_screen.dart';
+import 'package:reused_flutter/screens/chat/select_user.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/forum/main_screen.dart';
+import 'package:reused_flutter/screens/settings/main_screen.dart';
 import 'package:reused_flutter/screens/social/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
@@ -15,18 +17,15 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   final List<Widget> _screens = [
-    const ChatsMainScreen(),
-    // const DashboardMainScreen(),
+    const DashboardMainScreen(),
     const ForumMainScreen(),
     const ChatsMainScreen(),
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
-
-  bool _forumActive = true;
 
   PreferredSizeWidget _getAppBar(BuildContext context, int _selectedIndex) {
     switch (_selectedIndex) {
@@ -65,7 +64,9 @@ class _MainNavigationState extends State<MainNavigation> {
           // ],
         );
       case 2:
-        return AppBar(title: const Text("Chats"));
+        return AppBar(
+          title: const Text("Chats"),
+        );
       case 3:
         return AppBar(title: const Text("Shop"));
       case 4:
@@ -74,7 +75,7 @@ class _MainNavigationState extends State<MainNavigation> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/settings');
+                Navigator.pushNamed(context, SettingsMainScreen.routeName);
               },
               icon: const Icon(Icons.settings),
             ),
@@ -90,6 +91,14 @@ class _MainNavigationState extends State<MainNavigation> {
     return Scaffold(
       appBar: _getAppBar(context, _selectedIndex),
       drawer: AppDrawer(),
+      floatingActionButton: _selectedIndex == 2
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, ChatSelectUserScreen.routeName);
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

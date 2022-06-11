@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reused_flutter/main_nav.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
+import 'package:reused_flutter/screens/chat/select_user.dart';
 import 'package:reused_flutter/screens/create_course/main_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/login/main_screen.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           DashboardMainScreen.routeName: (_) => const DashboardMainScreen(),
+          ChatSelectUserScreen.routeName: (_) => const ChatSelectUserScreen(),
           // SocialMainScreen.routeName: (_) => const SocialMainScreen(),
           ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
           SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
