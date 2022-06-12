@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             'username': username,
             'email': email,
             'role': role,
-            'chatsWith': '',
+            'chats': {},
           },
         );
       }
@@ -80,7 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (error) {
       rethrow;
     }
-    _isLoading = false;
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

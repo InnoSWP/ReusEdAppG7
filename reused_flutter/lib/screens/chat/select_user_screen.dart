@@ -20,7 +20,7 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
   // cloud functions are required, which is paid
   void _checkNickname(String text, BuildContext context) async {
     final currentUsername = Provider.of<AuthProvider>(context, listen: false)
-        .currentUserData["username"];
+        .currentUserData.username;
     print(currentUsername);
     List<String> _currentSearchResults = [];
     if (text.isNotEmpty) {
@@ -45,7 +45,7 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
 
   void _createOrGoToChatWithPerson(String username) {
     print('pressed!');
-    
+
     Navigator.of(context).popAndPushNamed(
       UserChatScreen.routeName,
       arguments: {'username': username},
