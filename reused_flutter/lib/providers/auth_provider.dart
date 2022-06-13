@@ -22,7 +22,11 @@ class AuthProvider extends ChangeNotifier {
         .doc(user.currentUser!.uid)
         .get()
         .then((value) => _currentUserData = value.data()!);
-    print(_currentUserData["username"]);
+    notifyListeners();
+  }
+
+  void reloadCurrentUserInfo() {
+    _getCurrentUserInfo();
   }
 
   void initUserDataByID(String id) async {
@@ -43,9 +47,10 @@ class AuthProvider extends ChangeNotifier {
 
   UserModel getUserDataByID(String id) {
     if (!_usersDataByID.containsKey(id)) {
+      initUserDataByID(id);
       return UserModel(
         id: '',
-        username: '',
+        username: 'Loading...',
         chats: {},
         email: '',
         role: '',
@@ -55,11 +60,22 @@ class AuthProvider extends ChangeNotifier {
   }
 
   FirebaseAuth get currentUserAuthData => _currentUserAuthData;
-  UserModel get currentUserData => UserModel(
-        id: _currentUserAuthData.currentUser!.uid,
-        username: _currentUserData["username"],
-        chats: _currentUserData["chats"] as Map<String, dynamic>,
-        email: _currentUserData["email"],
-        role: _currentUserData["role"],
+  UserModel get currentUserData {
+    if (!_currentUserData.containsKey("username")) {
+      return UserModel(
+        id: '',
+        username: 'Loading...',
+        chats: {},
+        email: '',
+        role: '',
       );
+    }
+    return UserModel(
+      id: _currentUserAuthData.currentUser!.uid,
+      username: _currentUserData["username"],
+      chats: _currentUserData["chats"] as Map<String, dynamic>,
+      email: _currentUserData["email"],
+      role: _currentUserData["role"],
+    );
+  }
 }

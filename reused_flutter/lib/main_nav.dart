@@ -24,7 +24,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final List<Widget> _screens = [
     const DashboardMainScreen(),
     const ForumMainScreen(),
-    const ChatsMainScreen(),
+    ChatsMainScreen(),
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
@@ -90,8 +90,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context);
-    authProvider.initUserData();
+    Provider.of<AuthProvider>(context, listen: false).initUserData();
     return Scaffold(
       appBar: _getAppBar(context, _selectedIndex),
       drawer: AppDrawer(),

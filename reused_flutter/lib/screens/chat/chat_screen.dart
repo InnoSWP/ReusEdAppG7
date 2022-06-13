@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reused_flutter/models/chat_message_model.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/providers/chat_provider.dart';
 
@@ -13,28 +15,23 @@ class UserChatScreen extends StatefulWidget {
 }
 
 class _UserChatScreenState extends State<UserChatScreen> {
-  final bool _hasMessages = false;
+  bool _hasMessages = false;
   bool _isSendButtonActive = false;
   final _messageController = TextEditingController();
   final _textFocusNode = FocusNode();
 
-  void _sendMessage(String username) async {
+  void _sendMessage(String id) async {
     // do something
-    // var firebaseSnapshot =
-    //     await FirebaseFirestore.instance.collection('chats').get();
-    // final listOfChats = firebaseSnapshot.docs.map((doc) => doc.id).toList();
-    // if (listOfChats.contains(element))
     var fireInstance = FirebaseFirestore.instance.collection('chats');
     final chatProvider = Provider.of<ChatProvider>(context, listen: false);
     final userInfoProvider = Provider.of<AuthProvider>(context, listen: false);
     final Map<String, dynamic> chats = userInfoProvider.currentUserData.chats;
     final currentUsername = userInfoProvider.currentUserData.username;
-    if (!chats.containsKey(username)) {
-      chatProvider.createNewChat(
-          currentUsername, username, _messageController.text);
+    if (!chats.containsKey(id)) {
+      chatProvider.createNewChat(currentUsername, id, _messageController.text);
     } else {
       chatProvider.sendMessage(
-        chats[username],
+        chats[id],
         userInfoProvider.currentUserData.id,
         _messageController.text,
       );
@@ -48,11 +45,16 @@ class _UserChatScreenState extends State<UserChatScreen> {
   Widget build(BuildContext context) {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final String username = routeArgs['username']!;
-    print('here ' + username);
+    final authProvider = Provider.of<AuthProvider>(context);
+    final String recipientId = routeArgs['id']!;
+    final recipientData = authProvider.getUserDataByID(recipientId);
+    final String? messageId = authProvider.currentUserData.chats[recipientId];
+    if (messageId != null) {
+      _hasMessages = true;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text(username),
+        title: Text(recipientData.username),
       ),
       body: Column(
         children: [
@@ -61,9 +63,42 @@ class _UserChatScreenState extends State<UserChatScreen> {
               onTap: () => _textFocusNode.unfocus(),
               behavior: HitTestBehavior.translucent,
               child: _hasMessages
-                  ? SingleChildScrollView(
-                      child: Container(),
-                      // have messages here, listview builder, i guess
+                  ? StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("chats")
+                          .doc(messageId)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        // return Container();
+                        List<ChatMessageModel> _messages = [];
+                        final _messagesList =
+                            ((snapshot.data!.data() as Map)["messages"] as List)
+                                .forEach(
+                          (value) {
+                            _messages.add(
+                              ChatMessageModel(
+                                message: value["message"],
+                                timestamp: (value["timestamp"] as Timestamp)
+                                    .millisecondsSinceEpoch,
+                                senderId: value["sender"],
+                                senderName:
+                                    authProvider.currentUserData.username,
+                              ),
+                            );
+                          },
+                        );
+                        return ListView.separated(
+                          itemBuilder: (context, index) =>
+                              MessageCard(_messages[index]),
+                          separatorBuilder: (_, __) => const Divider(),
+                          itemCount: _messages.length,
+                        );
+                      },
                     )
                   : const Center(child: Text('No messages here yet!')),
             ),
@@ -91,11 +126,11 @@ class _UserChatScreenState extends State<UserChatScreen> {
                       onChanged: (_) {
                         if (_messageController.text.isEmpty) {
                           setState(() {
-                            _isSendButtonActive = false;
+                            _isSendButtonActive = true;
                           });
                         } else {
                           setState(() {
-                            _isSendButtonActive = true;
+                            _isSendButtonActive = false;
                           });
                         }
                       },
@@ -103,11 +138,43 @@ class _UserChatScreenState extends State<UserChatScreen> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed:
-                      _isSendButtonActive ? null : () => _sendMessage(username),
+                  onPressed: _isSendButtonActive
+                      ? null
+                      : () => _sendMessage(recipientId),
                   child: const Text("Send"),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MessageCard extends StatelessWidget {
+  final ChatMessageModel message;
+  const MessageCard(this.message, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(message.senderName),
+              const SizedBox(width: 10),
+              Text(DateFormat().format(DateTime.fromMillisecondsSinceEpoch(message.timestamp))),
+            ],
+          ),
+          const SizedBox(height: 5),
+          Text(
+            message.message,
+            style: const TextStyle(
+              fontSize: 16,
             ),
           ),
         ],
