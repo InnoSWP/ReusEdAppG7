@@ -6,6 +6,7 @@ import 'package:reused_flutter/main_nav.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/screens/create_course/main_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
+import 'package:reused_flutter/screens/forum/main_screen.dart';
 import 'package:reused_flutter/screens/login/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
@@ -25,7 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider(),)
+        ChangeNotifierProvider<AuthProvider>(
+          create: (_) => AuthProvider(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -47,11 +50,12 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           DashboardMainScreen.routeName: (_) => const DashboardMainScreen(),
-          // SocialMainScreen.routeName: (_) => const SocialMainScreen(),
+          ForumMainScreen.routeName: (_) => const ForumMainScreen(),
           ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
           SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
           ShopMainScreen.routeName: (_) => const ShopMainScreen(),
-          CreateCourseMainScreen.routeName: (_)=> const CreateCourseMainScreen(),
+          CreateCourseMainScreen.routeName: (_) =>
+              const CreateCourseMainScreen(),
         },
       ),
     );

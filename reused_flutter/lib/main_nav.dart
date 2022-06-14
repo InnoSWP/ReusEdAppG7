@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:reused_flutter/screens/chat/main_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/forum/main_screen.dart';
-import 'package:reused_flutter/screens/social/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
 import 'package:reused_flutter/widgets/app_drawer.dart';
@@ -18,52 +17,19 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const ChatsMainScreen(),
-    // const DashboardMainScreen(),
+    const DashboardMainScreen(),
     const ForumMainScreen(),
     const ChatsMainScreen(),
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
 
-  bool _forumActive = true;
-
   PreferredSizeWidget _getAppBar(BuildContext context, int _selectedIndex) {
     switch (_selectedIndex) {
       case 0:
         return AppBar(title: const Text("Dashboard"));
       case 1:
-        return AppBar(
-          title: const Text("Forum"),
-          // actions: [
-          //   TextButton(
-          //     onPressed: () {
-          //       setState(() {
-          //         if (!_forumActive) _forumActive = true;
-          //       });
-          //     },
-          //     child: Text("Forum",
-          //         style: TextStyle(
-          //           color: Colors.white,
-          //           fontSize: _forumActive ? 18 : 16,
-          //           fontWeight: _forumActive ? FontWeight.bold : null,
-          //         )),
-          //   ),
-          //   TextButton(
-          //     onPressed: () {
-          //       setState(() {
-          //         if (_forumActive) _forumActive = false;
-          //       });
-          //     },
-          //     child: Text("Leaderboard",
-          //         style: TextStyle(
-          //           color: Colors.white,
-          //           fontSize: _forumActive ? 16 : 18,
-          //           fontWeight: _forumActive ? null : FontWeight.bold,
-          //         )),
-          //   ),
-          // ],
-        );
+        return AppBar(title: const Text("Forum"));
       case 2:
         return AppBar(title: const Text("Chats"));
       case 3:
@@ -73,9 +39,7 @@ class _MainNavigationState extends State<MainNavigation> {
           title: const Text("Profile"),
           actions: [
             IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/settings');
-              },
+              onPressed: () => Navigator.pushNamed(context, '/settings'),
               icon: const Icon(Icons.settings),
             ),
           ],
