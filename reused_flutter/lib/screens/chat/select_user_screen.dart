@@ -47,7 +47,7 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
 
   void _goToChatWithPerson(String id) {
     print('pressed!');
-
+    
     Navigator.of(context).popAndPushNamed(
       UserChatScreen.routeName,
       arguments: {'id': id},

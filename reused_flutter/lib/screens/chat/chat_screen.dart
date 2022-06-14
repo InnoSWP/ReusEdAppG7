@@ -31,8 +31,9 @@ class _UserChatScreenState extends State<UserChatScreen> {
       chatProvider.createNewChat(currentUsername, id, _messageController.text);
     } else {
       chatProvider.sendMessage(
-        chats[id],
+        chats[id]["id"],
         userInfoProvider.currentUserData.id,
+        id,
         _messageController.text,
       );
     }
@@ -45,10 +46,10 @@ class _UserChatScreenState extends State<UserChatScreen> {
   Widget build(BuildContext context) {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final authProvider = Provider.of<AuthProvider>(context);
     final String recipientId = routeArgs['id']!;
+    final authProvider = Provider.of<AuthProvider>(context);
     final recipientData = authProvider.getUserDataByID(recipientId);
-    final String? chatId = authProvider.currentUserData.chats[recipientId];
+    final String? chatId = authProvider.currentUserData.chats[recipientId]?["id"];
     if (chatId != null) {
       _hasMessages = true;
     }
@@ -74,20 +75,19 @@ class _UserChatScreenState extends State<UserChatScreen> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        // return Container();
                         List<ChatMessageModel> _messages = [];
-                        for (var value in ((snapshot.data!.data() as Map)["messages"] as List)) {
-                            _messages.add(
-                              ChatMessageModel(
-                                message: value["message"],
-                                timestamp: (value["timestamp"] as Timestamp)
-                                    .millisecondsSinceEpoch,
-                                senderId: value["sender"],
-                                senderName:
-                                    authProvider.currentUserData.username,
-                              ),
-                            );
-                          }
+                        for (var value in ((snapshot.data!.data()
+                            as Map)["messages"] as List)) {
+                          _messages.add(
+                            ChatMessageModel(
+                              message: value["message"],
+                              timestamp: (value["timestamp"] as Timestamp)
+                                  .millisecondsSinceEpoch,
+                              senderId: value["sender"],
+                              senderName: authProvider.currentUserData.username,
+                            ),
+                          );
+                        }
                         return ListView.builder(
                           itemBuilder: (context, index) =>
                               MessageCard(_messages[index]),
@@ -164,12 +164,13 @@ class MessageCard extends StatelessWidget {
               Text(message.senderName),
               const SizedBox(width: 10),
               Text(
-                  DateFormat('HH:MM').format(
-                    DateTime.fromMillisecondsSinceEpoch(message.timestamp),
-                  ),
-                  style: const TextStyle(
-                    color: Colors.grey,
-                  )),
+                DateFormat('HH:mm').format(
+                  DateTime.fromMillisecondsSinceEpoch(message.timestamp),
+                ),
+                style: const TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 5),
