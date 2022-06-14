@@ -18,10 +18,8 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
   List<UserModel> _shownUsers = [];
 
   // TODO: optimize this
-  void _checkNickname(String text, BuildContext context) async {
-    final provider = Provider.of<AuthProvider>(context, listen: false);
+  void _checkNickname(String text, BuildContext context, AuthProvider provider) async {
     final currentUsername = provider.currentUserData.username;
-    print(currentUsername);
     List<UserModel> currentSearchResults = [];
     if (text.isNotEmpty) {
       var firebaseSnapshot =
@@ -63,6 +61,7 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: TextField(
@@ -71,7 +70,7 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
             hintStyle: TextStyle(color: Colors.white),
           ),
           autofocus: true,
-          onChanged: (text) => _checkNickname(text, context),
+          onChanged: (text) => _checkNickname(text, context, provider),
         ),
       ),
       body: (!_noSearchResults)

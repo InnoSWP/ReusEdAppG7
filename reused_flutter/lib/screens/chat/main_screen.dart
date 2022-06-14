@@ -42,8 +42,10 @@ class _ChatsMainScreenState extends State<ChatsMainScreen> {
         );
         chatList.sort(
           (a, b) {
-            int firstTime = (a.second["lastTimestamp"] as Timestamp).millisecondsSinceEpoch;
-            int secondTime = (b.second["lastTimestamp"] as Timestamp).millisecondsSinceEpoch;
+            int firstTime =
+                (a.second["lastTimestamp"] as Timestamp).millisecondsSinceEpoch;
+            int secondTime =
+                (b.second["lastTimestamp"] as Timestamp).millisecondsSinceEpoch;
             return secondTime.compareTo(firstTime);
           },
         );
@@ -60,10 +62,12 @@ class _ChatsMainScreenState extends State<ChatsMainScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                final Map lastMessageMap = (messageSnapshot.data!.data() as Map)["messages"].last;
+                final Map lastMessageMap =
+                    (messageSnapshot.data!.data() as Map)["messages"].last;
                 final lastMessage = ChatMessageModel(
                   message: lastMessageMap["message"],
-                  timestamp: (lastMessageMap["timestamp"] as Timestamp).millisecondsSinceEpoch,
+                  timestamp: (lastMessageMap["timestamp"] as Timestamp)
+                      .millisecondsSinceEpoch,
                   senderName: '',
                   senderId: lastMessageMap["sender"],
                 );
@@ -147,13 +151,14 @@ class ChatCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${(senderUsername == username) ? '' : 'You'}:',
+                          (senderUsername == username) ? '' : 'You:',
                           style: TextStyle(
                             color: Colors.grey.shade600,
                             fontSize: 15,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        if (senderUsername != username)
+                          const SizedBox(width: 8),
                         Text(
                           lastMessage.message,
                           style: TextStyle(

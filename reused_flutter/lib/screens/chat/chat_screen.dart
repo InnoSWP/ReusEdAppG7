@@ -38,6 +38,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
       );
     }
     setState(() {
+      _hasMessages = true;
       _messageController.text = '';
     });
   }
@@ -49,7 +50,9 @@ class _UserChatScreenState extends State<UserChatScreen> {
     final String recipientId = routeArgs['id']!;
     final authProvider = Provider.of<AuthProvider>(context);
     final recipientData = authProvider.getUserDataByID(recipientId);
-    final String? chatId = authProvider.currentUserData.chats[recipientId]?["id"];
+    final String? chatId =
+        authProvider.currentUserData.chats[recipientId]?["id"];
+    print(chatId);
     if (chatId != null) {
       _hasMessages = true;
     }
@@ -70,12 +73,14 @@ class _UserChatScreenState extends State<UserChatScreen> {
                           .doc(chatId)
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (!snapshot.hasData ||
+                            snapshot.data!.data() == null) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
                         List<ChatMessageModel> _messages = [];
+                        print('data: ${snapshot.data!.data()}');
                         for (var value in ((snapshot.data!.data()
                             as Map)["messages"] as List)) {
                           _messages.add(
@@ -84,13 +89,13 @@ class _UserChatScreenState extends State<UserChatScreen> {
                               timestamp: (value["timestamp"] as Timestamp)
                                   .millisecondsSinceEpoch,
                               senderId: value["sender"],
-                              senderName: authProvider.currentUserData.username,
+                              senderName: authProvider.getUserDataByID(value["sender"]).username,
                             ),
                           );
                         }
                         return ListView.builder(
-                          itemBuilder: (context, index) =>
-                              MessageCard(_messages[index]),
+                          itemBuilder: (context, index) => MessageBubble(
+                              _messages[index], authProvider.currentUserData.username),
                           itemCount: _messages.length,
                         );
                       },
@@ -147,41 +152,69 @@ class _UserChatScreenState extends State<UserChatScreen> {
   }
 }
 
-class MessageCard extends StatelessWidget {
+class MessageBubble extends StatelessWidget {
+  final String currentUser;
   final ChatMessageModel message;
-  const MessageCard(this.message, {Key? key}) : super(key: key);
+  const MessageBubble(this.message, this.currentUser, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(message.senderName),
-              const SizedBox(width: 10),
-              Text(
-                DateFormat('HH:mm').format(
-                  DateTime.fromMillisecondsSinceEpoch(message.timestamp),
-                ),
-                style: const TextStyle(
-                  color: Colors.grey,
-                ),
+    print(message.senderName);
+    return Row(
+      mainAxisAlignment: (currentUser == message.senderName)
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: currentUser == message.senderName
+                  ? Colors.blue
+                  : Colors.grey.shade300,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(10),
+                topRight: const Radius.circular(10),
+                bottomLeft: Radius.circular(
+                    (currentUser == message.senderName) ? 10 : 0),
+                bottomRight: Radius.circular(
+                    (currentUser == message.senderName) ? 0 : 10),
               ),
-            ],
-          ),
-          const SizedBox(height: 5),
-          Text(
-            message.message,
-            style: const TextStyle(
-              fontSize: 16,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12.0, 12, 12, 8),
+              child: Column(
+                crossAxisAlignment: (currentUser == message.senderName)
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    message.message,
+                    style: TextStyle(
+                      color: (currentUser == message.senderName)
+                          ? Colors.white
+                          : Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    DateFormat("HH:mm").format(
+                      DateTime.fromMillisecondsSinceEpoch(message.timestamp),
+                    ),
+                    style: TextStyle(
+                      color: (currentUser == message.senderName)
+                          ? Colors.grey.shade300
+                          : Colors.grey.shade600,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
