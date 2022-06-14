@@ -12,17 +12,6 @@ class ForumMainScreen extends StatefulWidget {
 }
 
 class _ForumMainScreenState extends State<ForumMainScreen> {
-  void initFirebase() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initFirebase();
-  }
-
   final CollectionReference _forums =
       FirebaseFirestore.instance.collection('forums');
 
@@ -44,29 +33,28 @@ class _ForumMainScreenState extends State<ForumMainScreen> {
                   BuildContext context,
                   AsyncSnapshot<QuerySnapshot> streamSnapshot,
                 ) {
-                  if (streamSnapshot.hasData) {
-                    return Flexible(
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics(),
-                        ),
-                        itemCount: streamSnapshot.data!.docs.length,
-                        itemBuilder: (
-                          BuildContext context,
-                          int index,
-                        ) {
-                          final DocumentSnapshot documentSnapshot =
-                              streamSnapshot.data!.docs[index];
-
-                          return ForumCard(documentSnapshot);
-                        },
-                      ),
+                  if (!streamSnapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   }
 
-                  // If snapshot has no data.
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Flexible(
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      itemCount: streamSnapshot.data!.docs.length,
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        final DocumentSnapshot documentSnapshot =
+                            streamSnapshot.data!.docs[index];
+
+                        return ForumCard(documentSnapshot);
+                      },
+                    ),
                   );
                 },
               ),
@@ -91,8 +79,11 @@ class ForumCard extends StatelessWidget {
           contentPadding: const EdgeInsets.all(10),
           title: Text(
             documentSnapshot['title'],
+            maxLines: 2,
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              fontSize: 24,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
