@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reused_flutter/models/tuple.dart';
+import 'package:reused_flutter/models/user_model.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/screens/chat/chat_screen.dart';
 
@@ -14,16 +14,15 @@ class ChatSelectUserScreen extends StatefulWidget {
 }
 
 class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
-  // move to list of users - to show avatar + full name
-  List<Tuple<String, String>> _shownUsers = [];
-  // is not optimized as well as the login username fetching
-  // as all the users are fetched into app + it's definitely unsafe
-  // cloud functions are required, which is paid
+  bool _noSearchResults = false;
+  List<UserModel> _shownUsers = [];
+
+  // TODO: optimize this
   void _checkNickname(String text, BuildContext context) async {
-    final currentUsername = Provider.of<AuthProvider>(context, listen: false)
-        .currentUserData.username;
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final currentUsername = provider.currentUserData.username;
     print(currentUsername);
-    List<Tuple<String, String>> _currentSearchResults = [];
+    List<UserModel> currentSearchResults = [];
     if (text.isNotEmpty) {
       var firebaseSnapshot =
           await FirebaseFirestore.instance.collection('users').get();
@@ -33,21 +32,29 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
           .map((e) => e["username"])
           .toList();
       final listOfIds = firebaseSnapshot.docs.map((doc) => doc.id).toList();
-      // non-optimized, probably
       for (var i = 0; i < listOfUsers.length; ++i) {
-        if (listOfUsers[i].startsWith(text) && currentUsername != listOfUsers[i]) {
-          _currentSearchResults.add(Tuple(listOfUsers[i], listOfIds[i]));
+        if (listOfUsers[i].startsWith(text) &&
+            currentUsername != listOfUsers[i]) {
+          currentSearchResults.add(provider.getUserDataByID(listOfIds[i]));
         }
       }
+      if (currentSearchResults.isEmpty) {
+        setState(() {
+          _noSearchResults = true;
+        });
+      }
+    } else {
+      setState(() {
+        _noSearchResults = false;
+      });
     }
+
     setState(() {
-      _shownUsers = _currentSearchResults;
+      _shownUsers = currentSearchResults;
     });
   }
 
   void _goToChatWithPerson(String id) {
-    print('pressed!');
-    
     Navigator.of(context).popAndPushNamed(
       UserChatScreen.routeName,
       arguments: {'id': id},
@@ -67,23 +74,77 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
           onChanged: (text) => _checkNickname(text, context),
         ),
       ),
-      body: ListView.separated(
-        itemBuilder: (context, index) => InkWell(
-          onTap: () => _goToChatWithPerson(_shownUsers[index].second),
-          child: SizedBox(
-            height: 70,
-            width: double.infinity,
-            child: Container(
-              color: Colors.grey.shade200,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(_shownUsers[index].first),
+      body: (!_noSearchResults)
+          ? ListView.builder(
+              itemBuilder: (context, index) => InkWell(
+                onTap: () => _goToChatWithPerson(_shownUsers[index].id),
+                child: SearchResultCard(_shownUsers[index]),
               ),
+              itemCount: _shownUsers.length,
+            )
+          : const Center(
+              child: Text("Nothing was found."),
             ),
+    );
+  }
+}
+
+class SearchResultCard extends StatelessWidget {
+  final UserModel userData;
+  const SearchResultCard(this.userData, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: InkWell(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.grey.shade200,
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 6,
+                fit: FlexFit.tight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          userData.username,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          userData.role,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-        separatorBuilder: (context, index) => const Divider(),
-        itemCount: _shownUsers.length,
       ),
     );
   }
