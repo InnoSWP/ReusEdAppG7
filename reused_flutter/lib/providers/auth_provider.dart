@@ -30,6 +30,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void initUserDataByID(String id) async {
+    if (id == '') return;
     await FirebaseFirestore.instance.collection('users').doc(id).get().then(
       (value) {
         var userData = value.data()!;

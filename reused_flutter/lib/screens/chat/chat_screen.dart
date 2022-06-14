@@ -48,8 +48,8 @@ class _UserChatScreenState extends State<UserChatScreen> {
     final authProvider = Provider.of<AuthProvider>(context);
     final String recipientId = routeArgs['id']!;
     final recipientData = authProvider.getUserDataByID(recipientId);
-    final String? messageId = authProvider.currentUserData.chats[recipientId];
-    if (messageId != null) {
+    final String? chatId = authProvider.currentUserData.chats[recipientId];
+    if (chatId != null) {
       _hasMessages = true;
     }
     return Scaffold(
@@ -66,7 +66,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                   ? StreamBuilder<DocumentSnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection("chats")
-                          .doc(messageId)
+                          .doc(chatId)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
@@ -76,10 +76,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                         }
                         // return Container();
                         List<ChatMessageModel> _messages = [];
-                        final _messagesList =
-                            ((snapshot.data!.data() as Map)["messages"] as List)
-                                .forEach(
-                          (value) {
+                        for (var value in ((snapshot.data!.data() as Map)["messages"] as List)) {
                             _messages.add(
                               ChatMessageModel(
                                 message: value["message"],
@@ -90,12 +87,10 @@ class _UserChatScreenState extends State<UserChatScreen> {
                                     authProvider.currentUserData.username,
                               ),
                             );
-                          },
-                        );
-                        return ListView.separated(
+                          }
+                        return ListView.builder(
                           itemBuilder: (context, index) =>
                               MessageCard(_messages[index]),
-                          separatorBuilder: (_, __) => const Divider(),
                           itemCount: _messages.length,
                         );
                       },
@@ -159,15 +154,22 @@ class MessageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(message.senderName),
               const SizedBox(width: 10),
-              Text(DateFormat().format(DateTime.fromMillisecondsSinceEpoch(message.timestamp))),
+              Text(
+                  DateFormat('HH:MM').format(
+                    DateTime.fromMillisecondsSinceEpoch(message.timestamp),
+                  ),
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  )),
             ],
           ),
           const SizedBox(height: 5),

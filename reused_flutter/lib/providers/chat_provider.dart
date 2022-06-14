@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:reused_flutter/models/chat_message_model.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatProvider extends ChangeNotifier {
+  final Map<String, ChatMessageModel> _lastMessages = {};
   ChatProvider();
 
-  void createNewChat(String sender, String recipientId, String newMessage) async {
+  void createNewChat(
+      String sender, String recipientId, String newMessage) async {
     final String chatsId = const Uuid().v1();
     var usersInstance = FirebaseFirestore.instance.collection('users');
     var chatsInstance = FirebaseFirestore.instance.collection('chats');
@@ -42,5 +45,33 @@ class ChatProvider extends ChangeNotifier {
       },
       SetOptions(merge: true),
     );
+  }
+
+  void initLastMessage(String chatId) async {
+    var chatsInstance = FirebaseFirestore.instance.collection('chats');
+    var cock =
+        await FirebaseFirestore.instance.collection("chats").doc(chatId).get();
+    var message = (cock.data()!["messages"] as List).last;
+    _lastMessages[chatId] = ChatMessageModel(
+      message: message["message"],
+      timestamp: (message["timestamp"] as Timestamp).millisecondsSinceEpoch,
+      senderName: '',
+      senderId: message["sender"],
+    );
+    notifyListeners();
+  }
+
+  ChatMessageModel getLastMessage(String chatId) {
+    if (!_lastMessages.containsKey(chatId)) {
+      initLastMessage(chatId);
+      return ChatMessageModel(
+        message: 'Loading...',
+        timestamp: 0,
+        senderName: '',
+        senderId: '',
+      );
+    } else {
+      return _lastMessages[chatId]!;
+    }
   }
 }
