@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reused_flutter/models/tuple.dart';
+import 'package:reused_flutter/providers/auth_provider.dart';
+import 'package:reused_flutter/providers/discussion_provider.dart';
+import 'package:reused_flutter/screens/forum/discussion_screen.dart';
 
 class ForumMainScreen extends StatefulWidget {
   static const routeName = "/forum";
-
   const ForumMainScreen({Key? key}) : super(key: key);
 
   @override
@@ -12,54 +15,42 @@ class ForumMainScreen extends StatefulWidget {
 }
 
 class _ForumMainScreenState extends State<ForumMainScreen> {
-  final CollectionReference _forums =
-      FirebaseFirestore.instance.collection('forums');
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              StreamBuilder(
-                stream: _forums.snapshots(),
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> streamSnapshot,
-                ) {
-                  if (!streamSnapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+    final CollectionReference forums =
+        FirebaseFirestore.instance.collection('discussions');
+    final authProvider = Provider.of<AuthProvider>(context);
+    final discussionProvider = Provider.of<DiscussionProvider>(context);
 
-                  return Flexible(
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics(),
-                      ),
-                      itemCount: streamSnapshot.data!.docs.length,
-                      itemBuilder: (
-                        BuildContext context,
-                        int index,
-                      ) {
-                        final DocumentSnapshot documentSnapshot =
-                            streamSnapshot.data!.docs[index];
+    return StreamBuilder(
+      stream: forums.snapshots(),
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<QuerySnapshot> streamSnapshot,
+      ) {
+        if (!streamSnapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
-                        return ForumCard(documentSnapshot);
-                      },
-                    ),
-                  );
-                },
-              ),
-            ]),
-      ),
+        var discussions = streamSnapshot.data!.docs
+            .map((e) => (e.data() as Map<String, dynamic>));
+        List<Tuple<String, Map<String, dynamic>>> discussionsList = [];
+
+        return ListView.builder(
+          itemCount: streamSnapshot.data!.docs.length,
+          itemBuilder: (
+            BuildContext context,
+            int index,
+          ) {
+            final DocumentSnapshot documentSnapshot =
+                streamSnapshot.data!.docs[index];
+
+            return ForumCard(documentSnapshot);
+          },
+        );
+      },
     );
   }
 }
@@ -71,10 +62,14 @@ class ForumCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final senderUsername = Provider.of<AuthProvider>(context)
+        .getUserDataByID(documentSnapshot["author"])
+        .username;
+
     return Card(
       margin: const EdgeInsets.all(10),
       child: SizedBox(
-        width: 150,
+        width: double.infinity,
         child: ListTile(
           contentPadding: const EdgeInsets.all(10),
           title: Text(
@@ -87,10 +82,22 @@ class ForumCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          subtitle: Text(
+            senderUsername,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
           trailing: const Icon(
             Icons.keyboard_arrow_right_outlined,
           ),
-          onTap: () {},
+          onTap: () => {
+            Navigator.of(context).pushNamed(
+              DiscussionScreen.routeName,
+              arguments: {'document': documentSnapshot},
+            ),
+            print(documentSnapshot.id),
+          },
         ),
       ),
     );

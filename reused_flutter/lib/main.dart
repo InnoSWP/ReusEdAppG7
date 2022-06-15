@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reused_flutter/main_nav.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
+import 'package:reused_flutter/providers/discussion_provider.dart';
 import 'package:reused_flutter/screens/create_course/main_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
+import 'package:reused_flutter/screens/forum/discussion_screen.dart';
 import 'package:reused_flutter/screens/forum/main_screen.dart';
+import 'package:reused_flutter/screens/forum/new_discussion_screen.dart';
 import 'package:reused_flutter/screens/login/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
@@ -28,7 +31,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<AuthProvider>(
           create: (_) => AuthProvider(),
-        )
+        ),
+        ChangeNotifierProvider<DiscussionProvider>(
+          create: (_) => DiscussionProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -56,6 +62,8 @@ class MyApp extends StatelessWidget {
           ShopMainScreen.routeName: (_) => const ShopMainScreen(),
           CreateCourseMainScreen.routeName: (_) =>
               const CreateCourseMainScreen(),
+          DiscussionScreen.routeName: (_) => const DiscussionScreen(),
+          NewDiscussionScreen.routeName: (_) => const NewDiscussionScreen(),
         },
       ),
     );
