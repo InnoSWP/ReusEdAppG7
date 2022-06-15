@@ -65,10 +65,15 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
 
               var discussionData =
                   discussionSnapshot.data!.data() as Map<String, dynamic>;
+              var discussionComments = discussionData["comments"];
+
+              discussionComments.sort((a, b) {
+                return (b["timestamp"] as int).compareTo(a["timestamp"] as int);
+              });
 
               return Flexible(
                 child: ListView.builder(
-                  itemCount: discussionData["comments"].length,
+                  itemCount: discussionComments.length,
                   itemBuilder: (context, index) {
                     return Card(
                       margin: const EdgeInsets.all(10),
@@ -77,7 +82,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                         child: ListTile(
                           contentPadding: const EdgeInsets.all(10),
                           title: Text(
-                            discussionData["comments"][index]["comment"],
+                            discussionComments[index]["comment"],
                             maxLines: 2,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
@@ -89,7 +94,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                           subtitle: Text(
                             authProvider
                                 .getUserDataByID(
-                                    discussionData["comments"][index]["sender"])
+                                    discussionComments[index]["sender"])
                                 .username,
                             style: const TextStyle(
                               fontSize: 16,

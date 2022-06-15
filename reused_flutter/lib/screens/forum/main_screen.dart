@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reused_flutter/models/tuple.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/providers/discussion_provider.dart';
 import 'package:reused_flutter/screens/forum/discussion_screen.dart';
