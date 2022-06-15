@@ -34,9 +34,12 @@ class _ForumMainScreenState extends State<ForumMainScreen> {
           );
         }
 
-        var discussions = streamSnapshot.data!.docs
-            .map((e) => (e.data() as Map<String, dynamic>));
-        List<Tuple<String, Map<String, dynamic>>> discussionsList = [];
+        var discussionsList = streamSnapshot.data!.docs;
+        discussionsList.sort(
+          (a, b) {
+            return b["creationTime"].compareTo(a["creationTime"]);
+          },
+        );
 
         return ListView.builder(
           itemCount: streamSnapshot.data!.docs.length,
@@ -44,10 +47,7 @@ class _ForumMainScreenState extends State<ForumMainScreen> {
             BuildContext context,
             int index,
           ) {
-            final DocumentSnapshot documentSnapshot =
-                streamSnapshot.data!.docs[index];
-
-            return ForumCard(documentSnapshot);
+            return ForumCard(discussionsList[index]);
           },
         );
       },
@@ -91,13 +91,10 @@ class ForumCard extends StatelessWidget {
           trailing: const Icon(
             Icons.keyboard_arrow_right_outlined,
           ),
-          onTap: () => {
-            Navigator.of(context).pushNamed(
-              DiscussionScreen.routeName,
-              arguments: {'document': documentSnapshot},
-            ),
-            print(documentSnapshot.id),
-          },
+          onTap: () => Navigator.of(context).pushNamed(
+            DiscussionScreen.routeName,
+            arguments: {'document': documentSnapshot},
+          ),
         ),
       ),
     );

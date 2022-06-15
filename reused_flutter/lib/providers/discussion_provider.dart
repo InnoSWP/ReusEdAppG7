@@ -6,9 +6,7 @@ import 'package:uuid/uuid.dart';
 class DiscussionProvider extends ChangeNotifier {
   DiscussionProvider();
 
-  void getDiscussionByID(String discussion_id) {}
-
-  void createNewDiscussion(String discussionTitle, String newComment) async {
+  void createNewDiscussion(String discussionTitle) async {
     final String discussionId = const Uuid().v1();
     var discussionsInstance =
         FirebaseFirestore.instance.collection('discussions');
@@ -19,13 +17,8 @@ class DiscussionProvider extends ChangeNotifier {
       {
         'title': discussionTitle,
         'author': authorId,
-        'comments': [
-          {
-            "sender": authorId,
-            "timestamp": currentTime,
-            "comment": newComment,
-          },
-        ],
+        'creationTime': currentTime.millisecondsSinceEpoch,
+        'comments': [],
       },
     );
   }
@@ -39,7 +32,8 @@ class DiscussionProvider extends ChangeNotifier {
         'comments': FieldValue.arrayUnion([
           {
             "sender": senderId,
-            "timestamp": Timestamp.fromDate(DateTime.now()),
+            "timestamp":
+                Timestamp.fromDate(DateTime.now()).millisecondsSinceEpoch,
             "comment": comment,
           },
         ]),

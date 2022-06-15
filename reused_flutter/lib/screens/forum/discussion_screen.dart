@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
+import 'package:reused_flutter/providers/discussion_provider.dart';
 
 class DiscussionScreen extends StatefulWidget {
   static const routeName = "/discussion";
@@ -17,6 +18,8 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
     final routeArgs = ModalRoute.of(context)!.settings.arguments as Map;
     final documentSnapshot = routeArgs["document"];
     final authProvider = Provider.of<AuthProvider>(context);
+    final discussionProvider = Provider.of<DiscussionProvider>(context);
+    final commentController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(),
@@ -104,25 +107,31 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: InkWell(
-                    onTap: null,
                     child: TextField(
-                      decoration: InputDecoration.collapsed(
+                      decoration: const InputDecoration.collapsed(
                         hintText: 'Enter your comment...',
                         focusColor: null,
                         filled: false,
                       ),
                       maxLines: 10,
                       minLines: 1,
-                      autofocus: true,
+                      controller: commentController,
                       keyboardType: TextInputType.multiline,
-                      onChanged: null,
                     ),
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (commentController.text.isNotEmpty) {
+                      discussionProvider.leaveComment(
+                          documentSnapshot.id,
+                          authProvider.currentUserData.id,
+                          commentController.text);
+                      commentController.text = '';
+                    }
+                  },
                   child: const Text("Send"),
                 ),
               ],

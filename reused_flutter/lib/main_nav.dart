@@ -5,6 +5,7 @@ import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/forum/main_screen.dart';
 import 'package:reused_flutter/screens/forum/new_discussion_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
+import 'package:reused_flutter/screens/settings/main_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
 import 'package:reused_flutter/widgets/app_drawer.dart';
 
@@ -21,6 +22,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final List<Widget> _screens = [
     const DashboardMainScreen(),
     const ForumMainScreen(),
+    const ShopMainScreen(),
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
@@ -40,7 +42,8 @@ class _MainNavigationState extends State<MainNavigation> {
           title: const Text("Profile"),
           actions: [
             IconButton(
-              onPressed: () => Navigator.pushNamed(context, '/settings'),
+              onPressed: () =>
+                  Navigator.pushNamed(context, SettingsMainScreen.routeName),
               icon: const Icon(Icons.settings),
             ),
           ],
