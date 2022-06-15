@@ -17,12 +17,11 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   final List<Widget> _screens = [
     const DashboardMainScreen(),
     const ForumMainScreen(),
-    const ShopMainScreen(),
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
