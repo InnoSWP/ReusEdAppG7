@@ -83,9 +83,6 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                           contentPadding: const EdgeInsets.all(10),
                           title: Text(
                             discussionComments[index]["comment"],
-                            maxLines: 2,
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
