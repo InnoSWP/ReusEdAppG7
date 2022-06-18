@@ -33,15 +33,25 @@ class _LoginScreenState extends State<LoginScreen> {
           password: password,
         );
       } else {
+        var firebaseSnapshot =
+            await FirebaseFirestore.instance.collection('users').get();
+        final listOfUsers = firebaseSnapshot.docs
+            .map((doc) => doc.data())
+            .toList()
+            .map((e) => e["username"])
+            .toList();
+        if (listOfUsers.contains(username)) {
+          setState(() {
+            _isLoading = false;
+            ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(content: Text("This username is already taken.")));
+          });
+          return;
+        }
         userCredentials = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userCredentials.user!.uid)
-            .set(
+        await FirebaseFirestore.instance.collection('users').doc(username).set(
           {
             'username': username,
             'email': email,
@@ -50,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } on FirebaseAuthException catch (error) {
-      String message = 'An error occurred, please check your credentials';
+      String message = 'An error occurred, please check your credentials.';
 
       if (error.message != null) {
         message = error.message!;
@@ -59,9 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (error) {
       rethrow;
     }
-    setState(() {
-      _isLoading = false;
-    });
+    _isLoading = false;
   }
 
   @override

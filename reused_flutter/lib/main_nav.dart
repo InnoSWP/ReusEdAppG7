@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:reused_flutter/screens/chat/main_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
+import 'package:reused_flutter/screens/forum/main_screen.dart';
 import 'package:reused_flutter/screens/social/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
@@ -16,8 +18,10 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const DashboardMainScreen(),
-    const SocialMainScreen(),
+    const ChatsMainScreen(),
+    // const DashboardMainScreen(),
+    const ForumMainScreen(),
+    const ChatsMainScreen(),
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
@@ -30,39 +34,41 @@ class _MainNavigationState extends State<MainNavigation> {
         return AppBar(title: const Text("Dashboard"));
       case 1:
         return AppBar(
-          title: const Text("Social"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  if (!_forumActive) _forumActive = true;
-                });
-              },
-              child: Text("Forum",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: _forumActive ? 18 : 16,
-                    fontWeight: _forumActive ? FontWeight.bold : null,
-                  )),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  if (_forumActive) _forumActive = false;
-                });
-              },
-              child: Text("Leaderboard",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: _forumActive ? 16 : 18,
-                    fontWeight: _forumActive ? null : FontWeight.bold,
-                  )),
-            ),
-          ],
+          title: const Text("Forum"),
+          // actions: [
+          //   TextButton(
+          //     onPressed: () {
+          //       setState(() {
+          //         if (!_forumActive) _forumActive = true;
+          //       });
+          //     },
+          //     child: Text("Forum",
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //           fontSize: _forumActive ? 18 : 16,
+          //           fontWeight: _forumActive ? FontWeight.bold : null,
+          //         )),
+          //   ),
+          //   TextButton(
+          //     onPressed: () {
+          //       setState(() {
+          //         if (_forumActive) _forumActive = false;
+          //       });
+          //     },
+          //     child: Text("Leaderboard",
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //           fontSize: _forumActive ? 16 : 18,
+          //           fontWeight: _forumActive ? null : FontWeight.bold,
+          //         )),
+          //   ),
+          // ],
         );
       case 2:
-        return AppBar(title: const Text("Shop"));
+        return AppBar(title: const Text("Chats"));
       case 3:
+        return AppBar(title: const Text("Shop"));
+      case 4:
         return AppBar(
           title: const Text("Profile"),
           actions: [
@@ -93,8 +99,12 @@ class _MainNavigationState extends State<MainNavigation> {
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.forum),
+            label: 'Forum',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.chat),
-            label: 'Social',
+            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
