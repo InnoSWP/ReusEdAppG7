@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-
-class AuthProvider extends ChangeNotifier {
-  AuthProvider();
-
-  FirebaseAuth getAuthInfo() {
-    var user = FirebaseAuth.instance;
-    return user;
-=======
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -89,6 +78,5 @@ class AuthProvider extends ChangeNotifier {
       email: _currentUserData["email"],
       role: _currentUserData["role"],
     );
->>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
   }
 }

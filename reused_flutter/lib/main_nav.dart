@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:reused_flutter/screens/chat/main_screen.dart';
-import 'package:reused_flutter/screens/dashboard/main_screen.dart';
-import 'package:reused_flutter/screens/forum/main_screen.dart';
-=======
 import 'package:provider/provider.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/screens/chat/main_screen.dart';
@@ -11,7 +6,6 @@ import 'package:reused_flutter/screens/chat/select_user_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/forum/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
->>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
 import 'package:reused_flutter/screens/social/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
@@ -28,16 +22,9 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 2;
 
   final List<Widget> _screens = [
-<<<<<<< HEAD
-    const ChatsMainScreen(),
-    // const DashboardMainScreen(),
-    const ForumMainScreen(),
-    const ChatsMainScreen(),
-=======
     const DashboardMainScreen(),
     const ForumMainScreen(),
     ChatsMainScreen(),
->>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
@@ -79,13 +66,9 @@ class _MainNavigationState extends State<MainNavigation> {
           // ],
         );
       case 2:
-<<<<<<< HEAD
-        return AppBar(title: const Text("Chats"));
-=======
         return AppBar(
           title: const Text("Chats"),
         );
->>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
       case 3:
         return AppBar(title: const Text("Shop"));
       case 4:
