@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reused_flutter/main_nav.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
+<<<<<<< HEAD
+=======
+import 'package:reused_flutter/providers/chat_provider.dart';
+import 'package:reused_flutter/screens/chat/chat_screen.dart';
+import 'package:reused_flutter/screens/chat/select_user_screen.dart';
+>>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
 import 'package:reused_flutter/screens/create_course/main_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/login/main_screen.dart';
@@ -25,9 +31,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+<<<<<<< HEAD
         ChangeNotifierProvider<AuthProvider>(
           create: (_) => AuthProvider(),
         )
+=======
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider(),),
+        ChangeNotifierProvider<ChatProvider>(create: (_) => ChatProvider(),),
+>>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -49,12 +60,21 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           DashboardMainScreen.routeName: (_) => const DashboardMainScreen(),
+<<<<<<< HEAD
+=======
+          ChatSelectUserScreen.routeName: (_) => const ChatSelectUserScreen(),
+>>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
           // SocialMainScreen.routeName: (_) => const SocialMainScreen(),
           ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
           SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
           ShopMainScreen.routeName: (_) => const ShopMainScreen(),
+<<<<<<< HEAD
           CreateCourseMainScreen.routeName: (_) =>
               const CreateCourseMainScreen(),
+=======
+          CreateCourseMainScreen.routeName: (_)=> const CreateCourseMainScreen(),
+          UserChatScreen.routeName: (_) => const UserChatScreen(),
+>>>>>>> 352c0cf12e7ecbffff87f5f3caf4abdf53044889
         },
       ),
     );

@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
           password: password,
         );
       } else {
+        // it is definitely not the best solution
+        // if the user base is enormous, then the app performance will suck
         var firebaseSnapshot =
             await FirebaseFirestore.instance.collection('users').get();
         final listOfUsers = firebaseSnapshot.docs
@@ -43,7 +45,11 @@ class _LoginScreenState extends State<LoginScreen> {
         if (listOfUsers.contains(username)) {
           setState(() {
             _isLoading = false;
-            ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(content: Text("This username is already taken.")));
+            ScaffoldMessenger.of(ctx).showSnackBar(
+              const SnackBar(
+                content: Text("This username is already taken."),
+              ),
+            );
           });
           return;
         }
@@ -51,11 +57,15 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email,
           password: password,
         );
-        await FirebaseFirestore.instance.collection('users').doc(username).set(
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredentials.user!.uid)
+            .set(
           {
             'username': username,
             'email': email,
             'role': role,
+            'chats': {},
           },
         );
       }
@@ -65,7 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
       if (error.message != null) {
         message = error.message!;
       }
-      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
     } catch (error) {
       rethrow;
     }
