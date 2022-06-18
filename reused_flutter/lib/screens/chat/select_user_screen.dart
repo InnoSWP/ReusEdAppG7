@@ -18,17 +18,15 @@ class _ChatSelectUserScreenState extends State<ChatSelectUserScreen> {
   List<UserModel> _shownUsers = [];
 
   // TODO: optimize this
-  void _checkNickname(String text, BuildContext context, AuthProvider provider) async {
+  void _checkNickname(
+      String text, BuildContext context, AuthProvider provider) async {
     final currentUsername = provider.currentUserData.username;
     List<UserModel> currentSearchResults = [];
     if (text.isNotEmpty) {
       var firebaseSnapshot =
           await FirebaseFirestore.instance.collection('users').get();
-      final listOfUsers = firebaseSnapshot.docs
-          .map((doc) => doc.data())
-          .toList()
-          .map((e) => e["username"])
-          .toList();
+      final listOfUsers =
+          firebaseSnapshot.docs.map((doc) => doc.data()["username"]).toList();
       final listOfIds = firebaseSnapshot.docs.map((doc) => doc.id).toList();
       for (var i = 0; i < listOfUsers.length; ++i) {
         if (listOfUsers[i].startsWith(text) &&

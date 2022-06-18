@@ -12,13 +12,14 @@ import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/login/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
+import 'package:reused_flutter/screens/shop/item_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
 
 import 'screens/splash/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
           SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
           ShopMainScreen.routeName: (_) => const ShopMainScreen(),
+          ShopItemScreen.routeName: (_) => const ShopItemScreen(),
           CreateCourseMainScreen.routeName: (_) =>
               const CreateCourseMainScreen(),
           UserChatScreen.routeName: (_) => const UserChatScreen(),
