@@ -21,12 +21,12 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   final List<Widget> _screens = [
     const DashboardMainScreen(),
     const ForumMainScreen(),
-    ChatsMainScreen(),
+    const ChatsMainScreen(),
     const ShopMainScreen(),
     const ProfileMainScreen(),
   ];
@@ -109,6 +109,10 @@ class _MainNavigationState extends State<MainNavigation> {
         switch (selectedIndex) {
           case 1:
             Navigator.pushNamed(context, NewDiscussionScreen.routeName);
+            break;
+          case 2:
+            Navigator.pushNamed(context, ChatSelectUserScreen.routeName);
+            break;
         }
       },
       child: const Icon(Icons.add),
