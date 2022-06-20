@@ -7,8 +7,12 @@ import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/providers/chat_provider.dart';
 import 'package:reused_flutter/screens/chat/chat_screen.dart';
 import 'package:reused_flutter/screens/chat/select_user_screen.dart';
+import 'package:reused_flutter/providers/discussion_provider.dart';
 import 'package:reused_flutter/screens/create_course/main_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
+import 'package:reused_flutter/screens/forum/discussion_screen.dart';
+import 'package:reused_flutter/screens/forum/main_screen.dart';
+import 'package:reused_flutter/screens/forum/new_discussion_screen.dart';
 import 'package:reused_flutter/screens/login/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
@@ -35,6 +39,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ChatProvider>(
           create: (_) => ChatProvider(),
         ),
+        ChangeNotifierProvider<DiscussionProvider>(
+          create: (_) => DiscussionProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -57,7 +64,6 @@ class MyApp extends StatelessWidget {
         routes: {
           DashboardMainScreen.routeName: (_) => const DashboardMainScreen(),
           ChatSelectUserScreen.routeName: (_) => const ChatSelectUserScreen(),
-          // SocialMainScreen.routeName: (_) => const SocialMainScreen(),
           ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
           SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
           ShopMainScreen.routeName: (_) => const ShopMainScreen(),
@@ -65,6 +71,9 @@ class MyApp extends StatelessWidget {
           CreateCourseMainScreen.routeName: (_) =>
               const CreateCourseMainScreen(),
           UserChatScreen.routeName: (_) => const UserChatScreen(),
+          ForumMainScreen.routeName: (_) => const ForumMainScreen(),
+          DiscussionScreen.routeName: (_) => const DiscussionScreen(),
+          NewDiscussionScreen.routeName: (_) => const NewDiscussionScreen(),
         },
       ),
     );

@@ -4,10 +4,12 @@ import 'package:reused_flutter/providers/auth_provider.dart';
 import 'package:reused_flutter/screens/chat/main_screen.dart';
 import 'package:reused_flutter/screens/chat/select_user_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
-import 'package:reused_flutter/screens/forum/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
 import 'package:reused_flutter/screens/social/main_screen.dart';
+import 'package:reused_flutter/screens/forum/main_screen.dart';
+import 'package:reused_flutter/screens/forum/new_discussion_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
+import 'package:reused_flutter/screens/settings/main_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
 import 'package:reused_flutter/widgets/app_drawer.dart';
 
@@ -34,37 +36,7 @@ class _MainNavigationState extends State<MainNavigation> {
       case 0:
         return AppBar(title: const Text("Dashboard"));
       case 1:
-        return AppBar(
-          title: const Text("Forum"),
-          // actions: [
-          //   TextButton(
-          //     onPressed: () {
-          //       setState(() {
-          //         if (!_forumActive) _forumActive = true;
-          //       });
-          //     },
-          //     child: Text("Forum",
-          //         style: TextStyle(
-          //           color: Colors.white,
-          //           fontSize: _forumActive ? 18 : 16,
-          //           fontWeight: _forumActive ? FontWeight.bold : null,
-          //         )),
-          //   ),
-          //   TextButton(
-          //     onPressed: () {
-          //       setState(() {
-          //         if (_forumActive) _forumActive = false;
-          //       });
-          //     },
-          //     child: Text("Leaderboard",
-          //         style: TextStyle(
-          //           color: Colors.white,
-          //           fontSize: _forumActive ? 16 : 18,
-          //           fontWeight: _forumActive ? null : FontWeight.bold,
-          //         )),
-          //   ),
-          // ],
-        );
+        return AppBar(title: const Text("Forum"));
       case 2:
         return AppBar(
           title: const Text("Chats"),
@@ -94,14 +66,7 @@ class _MainNavigationState extends State<MainNavigation> {
     return Scaffold(
       appBar: _getAppBar(context, _selectedIndex),
       drawer: AppDrawer(),
-      floatingActionButton: _selectedIndex == 2
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.pushNamed(context, ChatSelectUserScreen.routeName);
-              },
-              child: const Icon(Icons.add),
-            )
-          : null,
+      floatingActionButton: getFLoatingActionButton(_selectedIndex),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -135,6 +100,18 @@ class _MainNavigationState extends State<MainNavigation> {
           });
         },
       ),
+    );
+  }
+
+  getFLoatingActionButton(int selectedIndex) {
+    return FloatingActionButton(
+      onPressed: () {
+        switch (selectedIndex) {
+          case 1:
+            Navigator.pushNamed(context, NewDiscussionScreen.routeName);
+        }
+      },
+      child: const Icon(Icons.add),
     );
   }
 }
