@@ -35,6 +35,12 @@ jobs:
     # Load all steps #
     ##################
     steps:
+      ############################
+      # Install all dependencies #
+      ############################
+      - run: flutter pub get
+      # - run: dart analyze
+      
       ##########################
       # Checkout the code base #
       ##########################
