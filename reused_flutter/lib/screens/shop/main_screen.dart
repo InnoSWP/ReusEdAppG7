@@ -48,10 +48,20 @@ class ShopCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Image()
-              Text(
-                cardName,
-                textAlign: TextAlign.center,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cardName,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    '10.00\$',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey.shade600)
+                  ),
+                ],
               ),
               ElevatedButton(
                 onPressed: () {},
