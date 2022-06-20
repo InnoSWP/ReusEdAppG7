@@ -12,6 +12,7 @@ import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/login/main_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
+import 'package:reused_flutter/screens/shop/item_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
 
 import 'screens/splash/main_screen.dart';
@@ -28,8 +29,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider(),),
-        ChangeNotifierProvider<ChatProvider>(create: (_) => ChatProvider(),),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (_) => AuthProvider(),
+        ),
+        ChangeNotifierProvider<ChatProvider>(
+          create: (_) => ChatProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -56,7 +61,9 @@ class MyApp extends StatelessWidget {
           ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
           SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
           ShopMainScreen.routeName: (_) => const ShopMainScreen(),
-          CreateCourseMainScreen.routeName: (_)=> const CreateCourseMainScreen(),
+          ShopItemScreen.routeName: (_) => const ShopItemScreen(),
+          CreateCourseMainScreen.routeName: (_) =>
+              const CreateCourseMainScreen(),
           UserChatScreen.routeName: (_) => const UserChatScreen(),
         },
       ),

@@ -57,7 +57,10 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email,
           password: password,
         );
-        await FirebaseFirestore.instance.collection('users').doc(userCredentials.user!.uid).set(
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredentials.user!.uid)
+            .set(
           {
             'username': username,
             'email': email,
@@ -80,9 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (error) {
       rethrow;
     }
-    setState(() {
-      _isLoading = false;
-    });
+    _isLoading = false;
   }
 
   @override
