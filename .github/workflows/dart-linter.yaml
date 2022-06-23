@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./reused_flutter
 
     steps:
       - uses: actions/checkout@v3
@@ -19,7 +22,7 @@ jobs:
       - run: flutter --version
 
       - name: Install dependencies
-        run: flutter pub get /reused_flutter
+        run: flutter pub get
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
