@@ -28,14 +28,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider(),),
-        ChangeNotifierProvider<ChatProvider>(create: (_) => ChatProvider(),),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (_) => AuthProvider(),
+        ),
+        ChangeNotifierProvider<ChatProvider>(
+          create: (_) => ChatProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ReusEd',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.indigo,
+            accentColor: Colors.deepOrange.shade400,
+          ),
         ),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
@@ -56,7 +63,8 @@ class MyApp extends StatelessWidget {
           ProfileMainScreen.routeName: (_) => const ProfileMainScreen(),
           SettingsMainScreen.routeName: (_) => const SettingsMainScreen(),
           ShopMainScreen.routeName: (_) => const ShopMainScreen(),
-          CreateCourseMainScreen.routeName: (_)=> const CreateCourseMainScreen(),
+          CreateCourseMainScreen.routeName: (_) =>
+              const CreateCourseMainScreen(),
           UserChatScreen.routeName: (_) => const UserChatScreen(),
         },
       ),

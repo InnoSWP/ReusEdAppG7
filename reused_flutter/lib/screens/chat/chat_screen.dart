@@ -103,8 +103,9 @@ class _UserChatScreenState extends State<UserChatScreen> {
                   : const Center(child: Text('No messages here yet!')),
             ),
           ),
-          Padding(
+          Container(
             padding: const EdgeInsets.all(8.0),
+            color: Colors.grey.shade100,
             child: Row(
               children: [
                 Expanded(
@@ -115,6 +116,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                         hintText: 'Enter your message...',
                         focusColor: null,
                         filled: false,
+                        fillColor: Colors.blue,
                       ),
                       maxLines: 10,
                       minLines: 1,
@@ -126,11 +128,11 @@ class _UserChatScreenState extends State<UserChatScreen> {
                       onChanged: (_) {
                         if (_messageController.text.isEmpty) {
                           setState(() {
-                            _isSendButtonActive = true;
+                            _isSendButtonActive = false;
                           });
                         } else {
                           setState(() {
-                            _isSendButtonActive = false;
+                            _isSendButtonActive = true;
                           });
                         }
                       },
@@ -139,8 +141,8 @@ class _UserChatScreenState extends State<UserChatScreen> {
                 ),
                 ElevatedButton(
                   onPressed: _isSendButtonActive
-                      ? null
-                      : () => _sendMessage(recipientId),
+                      ? () => _sendMessage(recipientId)
+                      : null,
                   child: const Text("Send"),
                 ),
               ],
@@ -171,7 +173,7 @@ class MessageBubble extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: currentUser == message.senderName
-                  ? Colors.blue
+                  ? Theme.of(context).colorScheme.primary
                   : Colors.grey.shade300,
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(10),
