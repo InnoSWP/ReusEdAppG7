@@ -9,7 +9,6 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
-    environment: SonarRun
     steps:
       - uses: actions/checkout@v2
         with:
