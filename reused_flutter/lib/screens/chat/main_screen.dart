@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:reused_flutter/models/chat_message_model.dart';
 import 'package:reused_flutter/models/tuple.dart';
 import 'package:reused_flutter/providers/auth_provider.dart';
-import 'package:reused_flutter/providers/chat_provider.dart';
 import 'package:reused_flutter/screens/chat/chat_screen.dart';
 
 class ChatsMainScreen extends StatefulWidget {
@@ -20,8 +19,6 @@ class _ChatsMainScreenState extends State<ChatsMainScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-    final chatProvider = Provider.of<ChatProvider>(context);
-    print('rebuilt');
     return StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance
           .collection('users')

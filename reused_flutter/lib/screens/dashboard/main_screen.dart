@@ -86,7 +86,12 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
                                   children: [
                                     MaterialButton(
                                       onPressed: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CourseScreen()),);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CourseScreen()),
+                                        );
                                       },
                                       textColor: Theme.of(context).primaryColor,
                                       child: const Text('Go to the course'),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ResetForm extends StatefulWidget {
+  const ResetForm({Key? key}) : super(key: key);
+
   // final void Function(
   //   BuildContext ctx,
   // ) submitFunction;
@@ -14,9 +16,6 @@ class ResetForm extends StatefulWidget {
 
 class _ResetFormState extends State<ResetForm> {
   final _formKey = GlobalKey<FormState>();
-
-  String _userEmail = '';
-
 
   void _trySubmission() {
     // final isValid = _formKey.currentState!.validate();
@@ -32,60 +31,54 @@ class _ResetFormState extends State<ResetForm> {
     //     context,
     //   );
     // }
-
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: mediaQuery.size.height / 5),
-          const Text(
-            'ReusEd',
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.w600,
-            ),
+        body: Column(
+      children: [
+        SizedBox(height: mediaQuery.size.height / 5),
+        const Text(
+          'ReusEd',
+          style: TextStyle(
+            fontSize: 36,
+            fontWeight: FontWeight.w600,
           ),
-          SizedBox(height: mediaQuery.size.height / 10),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    textCapitalization: TextCapitalization.none,
-                    key: const ValueKey('email'),
-                    onSaved: (value) {
-                      _userEmail = value as String;
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'E-mail',
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || !value.contains('@')) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
+        ),
+        SizedBox(height: mediaQuery.size.height / 10),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  autocorrect: false,
+                  enableSuggestions: false,
+                  textCapitalization: TextCapitalization.none,
+                  key: const ValueKey('email'),
+                  onSaved: (value) {},
+                  decoration: const InputDecoration(
+                    labelText: 'E-mail',
                   ),
-                ],
-              ),
+                  validator: (value) {
+                    if (value!.isEmpty || !value.contains('@')) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+              ],
             ),
           ),
-
-          ElevatedButton(
-            onPressed: _trySubmission,
-            child: const Text("Send reset link"),
-          ),
-        
-        ],
-      )
-    );
+        ),
+        ElevatedButton(
+          onPressed: _trySubmission,
+          child: const Text("Send reset link"),
+        ),
+      ],
+    ));
   }
 }

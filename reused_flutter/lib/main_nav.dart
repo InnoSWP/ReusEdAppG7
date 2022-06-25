@@ -5,11 +5,9 @@ import 'package:reused_flutter/screens/chat/main_screen.dart';
 import 'package:reused_flutter/screens/chat/select_user_screen.dart';
 import 'package:reused_flutter/screens/dashboard/main_screen.dart';
 import 'package:reused_flutter/screens/settings/main_screen.dart';
-import 'package:reused_flutter/screens/social/main_screen.dart';
 import 'package:reused_flutter/screens/forum/main_screen.dart';
 import 'package:reused_flutter/screens/forum/new_discussion_screen.dart';
 import 'package:reused_flutter/screens/profile/main_screen.dart';
-import 'package:reused_flutter/screens/settings/main_screen.dart';
 import 'package:reused_flutter/screens/shop/main_screen.dart';
 import 'package:reused_flutter/widgets/app_drawer.dart';
 
@@ -21,7 +19,7 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
 
   final List<Widget> _screens = [
     const DashboardMainScreen(),
@@ -31,8 +29,8 @@ class _MainNavigationState extends State<MainNavigation> {
     const ProfileMainScreen(),
   ];
 
-  PreferredSizeWidget _getAppBar(BuildContext context, int _selectedIndex) {
-    switch (_selectedIndex) {
+  PreferredSizeWidget _getAppBar(BuildContext context, int selectedIndex) {
+    switch (selectedIndex) {
       case 0:
         return AppBar(title: const Text("Dashboard"));
       case 1:
@@ -64,10 +62,10 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     Provider.of<AuthProvider>(context, listen: false).initUserData();
     return Scaffold(
-      appBar: _getAppBar(context, _selectedIndex),
+      appBar: _getAppBar(context, selectedIndex),
       drawer: AppDrawer(),
-      floatingActionButton: getFLoatingActionButton(_selectedIndex),
-      body: _screens[_selectedIndex],
+      floatingActionButton: getFLoatingActionButton(selectedIndex),
+      body: _screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
@@ -92,11 +90,11 @@ class _MainNavigationState extends State<MainNavigation> {
             label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
-            _selectedIndex = index;
+            selectedIndex = index;
           });
         },
       ),

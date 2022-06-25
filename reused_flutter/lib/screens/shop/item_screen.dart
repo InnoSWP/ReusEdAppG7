@@ -22,7 +22,7 @@ class ShopItemScreen extends StatelessWidget {
               var data = snapshot.data!;
               return Column(
                 children: [
-                  Text("Description: " + data["description"]),
+                  Text('Description: ${data["description"]}'),
                 ],
               );
             }));

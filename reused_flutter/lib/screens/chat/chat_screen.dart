@@ -22,7 +22,6 @@ class _UserChatScreenState extends State<UserChatScreen> {
 
   void _sendMessage(String id) async {
     // do something
-    var fireInstance = FirebaseFirestore.instance.collection('chats');
     final chatProvider = Provider.of<ChatProvider>(context, listen: false);
     final userInfoProvider = Provider.of<AuthProvider>(context, listen: false);
     final Map<String, dynamic> chats = userInfoProvider.currentUserData.chats;
@@ -52,7 +51,6 @@ class _UserChatScreenState extends State<UserChatScreen> {
     final recipientData = authProvider.getUserDataByID(recipientId);
     final String? chatId =
         authProvider.currentUserData.chats[recipientId]?["id"];
-    print(chatId);
     if (chatId != null) {
       _hasMessages = true;
     }
@@ -79,24 +77,26 @@ class _UserChatScreenState extends State<UserChatScreen> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        List<ChatMessageModel> _messages = [];
-                        print('data: ${snapshot.data!.data()}');
+                        List<ChatMessageModel> messages = [];
                         for (var value in ((snapshot.data!.data()
                             as Map)["messages"] as List)) {
-                          _messages.add(
+                          messages.add(
                             ChatMessageModel(
                               message: value["message"],
                               timestamp: (value["timestamp"] as Timestamp)
                                   .millisecondsSinceEpoch,
                               senderId: value["sender"],
-                              senderName: authProvider.getUserDataByID(value["sender"]).username,
+                              senderName: authProvider
+                                  .getUserDataByID(value["sender"])
+                                  .username,
                             ),
                           );
                         }
                         return ListView.builder(
                           itemBuilder: (context, index) => MessageBubble(
-                              _messages[index], authProvider.currentUserData.username),
-                          itemCount: _messages.length,
+                              messages[index],
+                              authProvider.currentUserData.username),
+                          itemCount: messages.length,
                         );
                       },
                     )
@@ -160,7 +160,6 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(message.senderName);
     return Row(
       mainAxisAlignment: (currentUser == message.senderName)
           ? MainAxisAlignment.end
