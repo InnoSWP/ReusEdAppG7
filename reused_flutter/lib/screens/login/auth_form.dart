@@ -43,7 +43,8 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResetForm()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const ResetForm()));
   }
 
   @override
@@ -201,17 +202,18 @@ class _AuthFormState extends State<AuthForm> {
                   child: const Text("Sign up")),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Forgot password?"),
-              TextButton(onPressed: () {
-                // Navigate to reset_form screen
-                _navigateToNextScreen(context);
-              }, 
-              child: const Text("Reset password")),
-            ],
-          )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Forgot password?"),
+            TextButton(
+                onPressed: () {
+                  // Navigate to reset_form screen
+                  _navigateToNextScreen(context);
+                },
+                child: const Text("Reset password")),
+          ],
+        )
       ],
     );
   }
