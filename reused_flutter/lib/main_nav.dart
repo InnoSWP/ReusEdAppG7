@@ -63,7 +63,7 @@ class _MainNavigationState extends State<MainNavigation> {
     Provider.of<AuthProvider>(context, listen: false).initUserData();
     return Scaffold(
       appBar: _getAppBar(context, selectedIndex),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       floatingActionButton: getFLoatingActionButton(selectedIndex),
       body: _screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
