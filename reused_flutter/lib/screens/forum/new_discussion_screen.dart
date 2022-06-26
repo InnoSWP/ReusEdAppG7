@@ -41,7 +41,9 @@ class _NewDiscussionScreenState extends State<NewDiscussionScreen> {
                     hintText: "Title",
                   ),
                   onChanged: (value) {
-                    _discussionTitle = value;
+                    setState(() {
+                      _discussionTitle = value;
+                    });
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -53,10 +55,12 @@ class _NewDiscussionScreenState extends State<NewDiscussionScreen> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                discussionProvider.createNewDiscussion(_discussionTitle);
-                Navigator.pop(context);
-              },
+              onPressed: _discussionTitle.isNotEmpty
+                  ? (() {
+                      discussionProvider.createNewDiscussion(_discussionTitle);
+                      Navigator.pop(context);
+                    })
+                  : null,
               child: const Text("Create"),
             ),
           ],
