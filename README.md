@@ -4,8 +4,7 @@
 ![](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
 
-<a href="https://github.com/InnoSWP/ReusEdAppG7/actions">
-<img alt="Tests Passing" src="https://github.com/anuraghazra/github-readme-stats/workflows/Test/badge.svg" />
+[![Codemagic build status](https://api.codemagic.io/apps/62ba9641d6eaf74b544e547d/62ba9641d6eaf74b544e547c/status_badge.svg)](https://codemagic.io/apps/62ba9641d6eaf74b544e547d/62ba9641d6eaf74b544e547c/latest_build)
 
 [![HitCount](https://hits.dwyl.com/InnoSWP/ReusEdAppG7.svg?style=flat-square)](http://hits.dwyl.com/InnoSWP/ReusEdAppG7)
 </a>
@@ -15,6 +14,7 @@
 <a href="https://github.com/InnoSWP/ReusEdAppG7/pulls">
 <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/InnoSWP/ReusEdAppG7?color=0088ff" />
 </a>
+
 
 ## ✒️ Project description
 
