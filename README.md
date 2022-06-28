@@ -26,7 +26,7 @@ This is a reusable package for developers to create their own mobile apps with <
 
 ## ⚙️ How to Use
 
-- This application has the following distinguishable features
+- This application has the following distinguishable features 
   - Course Dashboard
   - Forum
   - Shop
