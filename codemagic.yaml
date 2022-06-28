@@ -1,0 +1,32 @@
+# Automatically generated on 2022-06-28 UTC from https://codemagic.io/app/62ba9641d6eaf74b544e547d/settings
+# Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
+
+workflows:
+  default-workflow:
+    name: CodeMagicTesting
+    max_build_duration: 30
+    environment:
+      flutter: default
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+        - pattern: develop
+          include: true
+          source: true
+      tag_patterns:
+        - pattern: "*"
+          include: true
+    scripts:
+      - cd reused_flutter && flutter packages pub get
+      - cd reused_flutter && flutter analyze
+    artifacts:
+      - reused_flutter/*.snap
+      - reused_flutter/build/windows/**/*.msix
+      - reused_flutter/flutter_drive.log
