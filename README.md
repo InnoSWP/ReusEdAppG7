@@ -72,7 +72,7 @@ This module provides a shop system inside the app. Users can buy new courses etc
 
 ## 🥇 Badges
 
-Currently there are 5 contributors for this repository. Feel free to contribute!
+Currently there are 6 contributors for this repository. Feel free to contribute!
 
 <a href = "https://github.com/InnoSWP/ReusEdAppG7/graphs/contributors">
 <img src = "https://contrib.rocks/image?repo=InnoSWP/ReusEdAppG7"/>
