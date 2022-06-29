@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reused_flutter/providers/auth_provider.dart';
-import 'package:reused_flutter/screens/chat/main_screen.dart';
-import 'package:reused_flutter/screens/chat/select_user_screen.dart';
-import 'package:reused_flutter/screens/dashboard/main_screen.dart';
-import 'package:reused_flutter/screens/settings/main_screen.dart';
-import 'package:reused_flutter/screens/forum/main_screen.dart';
-import 'package:reused_flutter/screens/forum/new_discussion_screen.dart';
-import 'package:reused_flutter/screens/profile/main_screen.dart';
-import 'package:reused_flutter/screens/shop/main_screen.dart';
-import 'package:reused_flutter/widgets/app_drawer.dart';
 
-//
+import 'packages/chats/screens/main_screen.dart';
+import 'packages/chats/screens/select_user_screen.dart';
+import 'packages/forums/screens/main_screen.dart';
+import 'packages/forums/screens/new_discussion_screen.dart';
+import 'packages/main/providers/auth_provider.dart';
+import 'packages/main/screens/dashboard/main_screen.dart';
+import 'packages/main/screens/profile/main_screen.dart';
+import 'packages/main/screens/settings/main_screen.dart';
+import 'packages/main/widgets/app_drawer.dart';
+import 'packages/shop/screens/main_screen.dart';
+
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key? key}) : super(key: key);
 
@@ -20,29 +20,31 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int selectedIndex = 0;
+  int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    const DashboardMainScreen(),
-    const ForumMainScreen(),
-    const ChatsMainScreen(),
-    const ShopMainScreen(),
-    const ProfileMainScreen(),
+  String _currentSelected = 'Main';
+
+  final List<String> _importedPackages = [
+    'Main',
+    'Forums',
+    'Chats',
+    'Shop',
+    'Profile',
   ];
 
-  PreferredSizeWidget _getAppBar(BuildContext context, int selectedIndex) {
-    switch (selectedIndex) {
-      case 0:
+  PreferredSizeWidget _getAppBar(BuildContext context, String selected) {
+    switch (selected) {
+      case 'Main':
         return AppBar(title: const Text("Dashboard"));
-      case 1:
+      case 'Forums':
         return AppBar(title: const Text("Forum"));
-      case 2:
+      case 'Chats':
         return AppBar(
           title: const Text("Chats"),
         );
-      case 3:
+      case 'Shop':
         return AppBar(title: const Text("Shop"));
-      case 4:
+      case 'Profile':
         return AppBar(
           title: const Text("Profile"),
           actions: [
@@ -61,60 +63,92 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_importedPackages.contains('Main')) {
+      throw Exception('The app can\'t work without the main screen.');
+    }
+    final List<Widget> screens = [
+      for (var package in _importedPackages)
+        if (package == 'Main')
+          const DashboardMainScreen()
+        else if (package == 'Forums')
+          const ForumMainScreen()
+        else if (package == 'Chats')
+          const ChatsMainScreen()
+        else if (package == 'Shop')
+          const ShopMainScreen()
+        else if (package == 'Profile')
+          const ProfileMainScreen()
+        else
+          const DashboardMainScreen()
+    ];
     Provider.of<AuthProvider>(context, listen: false).initUserData();
     return Scaffold(
-      appBar: _getAppBar(context, selectedIndex),
-      drawer: const AppDrawer(),
-      floatingActionButton: getFLoatingActionButton(selectedIndex),
-      body: _screens[selectedIndex],
+      appBar: _getAppBar(context, _currentSelected),
+      drawer: AppDrawer(),
+      floatingActionButton: getFLoatingActionButton(_currentSelected),
+      body: screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.forum),
-            label: 'Forum',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Shop',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+        items: <BottomNavigationBarItem>[
+          for (var item in _importedPackages)
+            if (item == 'Main')
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Dashboard',
+              )
+            else if (item == 'Forums')
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.forum),
+                label: 'Forum',
+              )
+            else if (item == 'Chats')
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                label: 'Chat',
+              )
+            else if (item == 'Shop')
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart),
+                label: 'Shop',
+              )
+            else if (item == 'Profile')
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              )
+            else
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Dashboard',
+              )
         ],
-        currentIndex: selectedIndex,
+        currentIndex: _selectedIndex,
         showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
-            selectedIndex = index;
+            _currentSelected = _importedPackages[index];
+            _selectedIndex = index;
           });
         },
       ),
     );
   }
 
-  getFLoatingActionButton(int selectedIndex) {
-    return FloatingActionButton(
-      onPressed: () {
-        switch (selectedIndex) {
-          case 1:
-            Navigator.pushNamed(context, NewDiscussionScreen.routeName);
-            break;
-          case 2:
-            Navigator.pushNamed(context, ChatSelectUserScreen.routeName);
-            break;
-        }
-      },
-      child: const Icon(Icons.add),
-    );
+  getFLoatingActionButton(String selected) {
+    return (selected == 'Chats' || selected == 'Forums')
+        ? FloatingActionButton(
+            onPressed: () {
+              switch (selected) {
+                case 'Forums':
+                  Navigator.pushNamed(context, NewDiscussionScreen.routeName);
+                  break;
+                case 'Chats':
+                  Navigator.pushNamed(context, ChatSelectUserScreen.routeName);
+                  break;
+              }
+            },
+            child: const Icon(Icons.add),
+          )
+        : null;
   }
 }
