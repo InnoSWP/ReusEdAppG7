@@ -21,7 +21,7 @@ class ShopMainScreen extends StatelessWidget {
           child: ListView.builder(
             itemBuilder: (context, index) {
               return ShopCard(data[index].id, data[index]["name"],
-                  data[index]["description"]);
+                  data[index]["description"], data[index]["price"]);
             },
             itemCount: data.length,
           ),
@@ -35,8 +35,9 @@ class ShopCard extends StatelessWidget {
   final String cardName;
   final String id;
   final String imageSource;
+  final int price;
 
-  const ShopCard(this.id, this.cardName, this.imageSource, {Key? key})
+  const ShopCard(this.id, this.cardName, this.imageSource, this.price, {Key? key})
       : super(key: key);
 
   @override
@@ -64,15 +65,19 @@ class ShopCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  Text(
-                    '10.00\$',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey.shade600)
-                  ),
+                  Text('${price.toStringAsFixed(2)}\$',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey.shade600)),
                 ],
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Item bought!'),
+                    ),
+                  );
+                },
                 child: const Text("Buy"),
               ),
             ],

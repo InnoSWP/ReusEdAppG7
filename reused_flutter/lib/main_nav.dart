@@ -33,6 +33,7 @@ class _MainNavigationState extends State<MainNavigation> {
   ];
 
   PreferredSizeWidget _getAppBar(BuildContext context, String selected) {
+    final userData = Provider.of<AuthProvider>(context).currentUserData;
     switch (selected) {
       case 'Main':
         return AppBar(title: const Text("Dashboard"));
@@ -46,7 +47,7 @@ class _MainNavigationState extends State<MainNavigation> {
         return AppBar(title: const Text("Shop"));
       case 'Profile':
         return AppBar(
-          title: const Text("Profile"),
+          title: Text(userData.username),
           actions: [
             IconButton(
               onPressed: () {

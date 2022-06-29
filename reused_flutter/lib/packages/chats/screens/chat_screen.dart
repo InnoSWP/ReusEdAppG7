@@ -173,6 +173,7 @@ class MessageBubble extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
+            constraints: const BoxConstraints(maxWidth: 200),
             decoration: BoxDecoration(
               color: currentUser == message.senderName
                   ? Theme.of(context).colorScheme.primary

@@ -14,7 +14,6 @@ class DiscussionScreen extends StatefulWidget {
 }
 
 class _DiscussionScreenState extends State<DiscussionScreen> {
-  bool _isSendButtonActive = false;
   @override
   Widget build(BuildContext context) {
     final routeArgs = ModalRoute.of(context)!.settings.arguments as Map;
@@ -24,7 +23,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
     final commentController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: const Text('Discussion')),
       body: Column(
         children: [
           Card(

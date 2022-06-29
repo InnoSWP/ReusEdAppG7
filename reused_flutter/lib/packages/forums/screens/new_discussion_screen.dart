@@ -22,45 +22,49 @@ class _NewDiscussionScreenState extends State<NewDiscussionScreen> {
       appBar: AppBar(
         title: const Text("New discussion"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Discussion question/topic:',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Form(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: "Title",
-                  ),
-                  onChanged: (value) {
-                    _discussionTitle = value;
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Title should not be empty';
-                    }
-                    return null;
-                  },
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Discussion question/topic:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                discussionProvider.createNewDiscussion(_discussionTitle);
-                Navigator.pop(context);
-              },
-              child: const Text("Create"),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Form(
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Topic title",
+                    ),
+                    onChanged: (value) {
+                      _discussionTitle = value;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Title should not be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  discussionProvider.createNewDiscussion(_discussionTitle);
+                  Navigator.pop(context);
+                },
+                child: const Text("Create"),
+              ),
+            ],
+          ),
         ),
       ),
     );
