@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'packages.dart';
 import 'packages/chats/screens/main_screen.dart';
 import 'packages/chats/screens/select_user_screen.dart';
 import 'packages/forums/screens/main_screen.dart';
@@ -23,14 +24,6 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   String _currentSelected = 'Main';
-
-  final List<String> _importedPackages = [
-    'Main',
-    'Forums',
-    'Chats',
-    'Shop',
-    'Profile',
-  ];
 
   PreferredSizeWidget _getAppBar(BuildContext context, String selected) {
     final userData = Provider.of<AuthProvider>(context).currentUserData;
@@ -64,11 +57,11 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_importedPackages.contains('Main')) {
+    if (!importedPackages.contains('Main')) {
       throw Exception('The app can\'t work without the main screen.');
     }
     final List<Widget> screens = [
-      for (var package in _importedPackages)
+      for (var package in importedPackages)
         if (package == 'Main')
           const DashboardMainScreen()
         else if (package == 'Forums')
@@ -88,50 +81,52 @@ class _MainNavigationState extends State<MainNavigation> {
       drawer: AppDrawer(),
       floatingActionButton: getFLoatingActionButton(_currentSelected),
       body: screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          for (var item in _importedPackages)
-            if (item == 'Main')
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Dashboard',
-              )
-            else if (item == 'Forums')
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.forum),
-                label: 'Forum',
-              )
-            else if (item == 'Chats')
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Chat',
-              )
-            else if (item == 'Shop')
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                label: 'Shop',
-              )
-            else if (item == 'Profile')
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              )
-            else
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Dashboard',
-              )
-        ],
-        currentIndex: _selectedIndex,
-        showUnselectedLabels: false,
-        onTap: (index) {
-          setState(() {
-            _currentSelected = _importedPackages[index];
-            _selectedIndex = index;
-          });
-        },
-      ),
+      bottomNavigationBar: (importedPackages.length > 1)
+          ? BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              items: <BottomNavigationBarItem>[
+                for (var item in importedPackages)
+                  if (item == 'Main')
+                    const BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Dashboard',
+                    )
+                  else if (item == 'Forums')
+                    const BottomNavigationBarItem(
+                      icon: Icon(Icons.forum),
+                      label: 'Forum',
+                    )
+                  else if (item == 'Chats')
+                    const BottomNavigationBarItem(
+                      icon: Icon(Icons.chat),
+                      label: 'Chat',
+                    )
+                  else if (item == 'Shop')
+                    const BottomNavigationBarItem(
+                      icon: Icon(Icons.shopping_cart),
+                      label: 'Shop',
+                    )
+                  else if (item == 'Profile')
+                    const BottomNavigationBarItem(
+                      icon: Icon(Icons.person),
+                      label: 'Profile',
+                    )
+                  else
+                    const BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Dashboard',
+                    )
+              ],
+              currentIndex: _selectedIndex,
+              showUnselectedLabels: false,
+              onTap: (index) {
+                setState(() {
+                  _currentSelected = importedPackages[index];
+                  _selectedIndex = index;
+                });
+              },
+            )
+          : null,
     );
   }
 
