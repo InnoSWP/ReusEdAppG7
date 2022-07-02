@@ -1,7 +1,7 @@
 const List<String> importedPackages = [
-  // 'Chats',
-  'Shop',
   'Main',
-  // 'Forums',
+  'Forums',
+  'Chats',
+  'Shop',
   'Profile',
 ];
