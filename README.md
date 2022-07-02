@@ -23,11 +23,15 @@ This is a reusable package for developers to create their own mobile apps with <
 
 Click on the image to watch the demo of the application. 👇
 
-[![IMAGE ALT TEXT HERE](https://i.ibb.co/51T92XC/image.png)](https://www.youtube.com/watch?v=IJIdoE22og8)
+[![IMAGE ALT TEXT HERE](https://i.ytimg.com/vi/IJIdoE22og8/hqdefault.jpg)](https://www.youtube.com/watch?v=IJIdoE22og8)
 
 ## ⚙️ How to Use
 
 - Clone this repository: `git clone git@github.com:InnoSWP/ReusEdAppG7.git`
+- Run this set of commands in order:
+  - `cd ReusEdAppG7/reused_flutter`
+  - `flutter pub get` (make sure you have Flutter installed on your computer)
+  - `flutter run`
 - Go to `reused_flutter/lib/packages.dart` and try adding/removing some packages. _e.g. Main, Forums, Chats, Shop, Profile_
 - You can just add or remove any of the packages from that file.
 - For customizing or tweaking with the app components, go to `reused_flutter/lib/packages/<MODULE_NAME>/screens/` and make changes according to your taste.
