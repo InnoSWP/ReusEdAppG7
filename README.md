@@ -70,7 +70,7 @@ This module provides a shop system inside the app. Users can buy new courses etc
 
 - <a href="https://flutter.dev">Flutter</a>
 
-## 🥇 Badges
+## 🥇 Contributors
 
 Currently there are 6 contributors for this repository. Feel free to contribute!
 
