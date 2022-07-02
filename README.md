@@ -15,30 +15,22 @@
 <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/InnoSWP/ReusEdAppG7?color=0088ff" />
 </a>
 
-
 ## ✒️ Project description
 
-This is a reusable package for developers to create their own mobile apps with <a href="https://flutter.dev">Flutter</a>. Has an obligatory "course" package that contains course learning functionality and customizable importable modules.
+This is a reusable package for developers to create their own mobile apps with <a href="https://flutter.dev">Flutter</a>. It has as an obligatory "course" package that contains course learning functionality and customizable importable modules.
 
 ## 📺 Demo
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/RhtglOWkuo4/0.jpg)](https://www.youtube.com/watch?v=RhtglOWkuo4)
+Click on the image to watch the demo of the application. 👇
+
+[![IMAGE ALT TEXT HERE](https://i.ibb.co/51T92XC/image.png)](https://www.youtube.com/watch?v=IJIdoE22og8)
 
 ## ⚙️ How to Use
 
-- This application has the following distinguishable features
-  - Course Dashboard
-  - Forum
-  - Shop
-  - Socials
-- The features above are provided to you in separate branches named as `<FEATURE>-<NAME>` _e.g.FEATURE-SOCIALS_
-- Steps:
-  - Clone this repository: Run `git clone https://github.com/InnoSWP/ReusEdAppG7.git` from your command line.
-  - Create a new branch (of your own)
-  - Merge any feature branch you would like to have in your app to your own branch.
-  - Feel free to add any changes to source code
-
----
+- Clone this repository: `git clone git@github.com:InnoSWP/ReusEdAppG7.git`
+- Go to `reused_flutter/lib/packages.dart` and try adding/removing some packages. _e.g. Main, Forums, Chats, Shop, Profile_
+- You can just add or remove any of the packages from that file.
+- For customizing or tweaking with the app components, go to `reused_flutter/lib/packages/<MODULE_NAME>/screens/` and make changes according to your taste.
 
 ## 💪 Features
 
@@ -46,7 +38,7 @@ ReusEd Learning App has several features that will be useful for further develop
 
 ### ✅ Module based system
 
-Developers can pick any modules they want and import them in his own Flutter application
+Developers can pick any modules they want and include them in his own Flutter application
 
 ### ✅ Chats
 
