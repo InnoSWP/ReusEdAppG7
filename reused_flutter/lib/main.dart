@@ -3,23 +3,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reused_flutter/main_nav.dart';
-import 'package:reused_flutter/providers/auth_provider.dart';
-import 'package:reused_flutter/providers/chat_provider.dart';
-import 'package:reused_flutter/screens/chat/chat_screen.dart';
-import 'package:reused_flutter/screens/chat/select_user_screen.dart';
-import 'package:reused_flutter/providers/discussion_provider.dart';
-import 'package:reused_flutter/screens/create_course/main_screen.dart';
-import 'package:reused_flutter/screens/dashboard/main_screen.dart';
-import 'package:reused_flutter/screens/forum/discussion_screen.dart';
-import 'package:reused_flutter/screens/forum/main_screen.dart';
-import 'package:reused_flutter/screens/forum/new_discussion_screen.dart';
-import 'package:reused_flutter/screens/login/main_screen.dart';
-import 'package:reused_flutter/screens/profile/main_screen.dart';
-import 'package:reused_flutter/screens/settings/main_screen.dart';
-import 'package:reused_flutter/screens/shop/item_screen.dart';
-import 'package:reused_flutter/screens/shop/main_screen.dart';
 
-import 'screens/splash/main_screen.dart';
+import 'packages/chats/providers/chat_provider.dart';
+import 'packages/chats/screens/chat_screen.dart';
+import 'packages/chats/screens/select_user_screen.dart';
+import 'packages/forums/providers/discussion_provider.dart';
+import 'packages/forums/screens/discussion_screen.dart';
+import 'packages/forums/screens/main_screen.dart';
+import 'packages/forums/screens/new_discussion_screen.dart';
+import 'packages/main/providers/auth_provider.dart';
+import 'packages/main/screens/create_course/main_screen.dart';
+import 'packages/main/screens/dashboard/main_screen.dart';
+import 'packages/main/screens/login/main_screen.dart';
+import 'packages/main/screens/profile/main_screen.dart';
+import 'packages/main/screens/settings/main_screen.dart';
+import 'packages/shop/screens/item_screen.dart';
+import 'packages/shop/screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,14 +46,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ReusEd',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSwatch(
+            accentColor: Colors.deepOrange.shade400,
+            primarySwatch: Colors.indigo,
+          ),
         ),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SplashScreen();
-            }
             if (snapshot.hasData) {
               return const MainNavigation();
             }
